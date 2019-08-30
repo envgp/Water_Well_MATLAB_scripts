@@ -12,8 +12,8 @@ addpath('../functions');
 close all
 
 % Checks whether a variable called 'Data_All' exists already; if not, we
-% import the bulk data. Note this script does not download the data from
-% the internet, but assumes you have downloaded it in ../opendata_files.
+% import the bulk data. Note this script tries to download the data from
+% the internet, but if that doesn't work, you can download yourself and put it in ../opendata_files.
 % See 'help import_opendata'.
 if exist('Data_All') == 0
     disp('Data_All not found; importing Data')
