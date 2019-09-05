@@ -4,6 +4,12 @@ function fig = plot_hydrograph(Data,well_id)
 % id in the CASGEM dataset. well_id should be a character vector of form
 % (for example) '361089N1194293W001'. Depth to water is calculated using
 % the correct 'Matt' method.
+
+    % Check you have the right type of data as well_id    
+    if isa(well_id,'cell')
+        fprintf('\tWARNING: well_id input is given as cell. It should be char. Try using curly braces, not curved brackets. Error likely to follow!')
+    end
+    
     Data_filt = filter_by_siteid(Data,well_id);
 %     [LIA, LOCB] = ismember(Data.MeasurementData.site_code(:),well_id);
 % 
