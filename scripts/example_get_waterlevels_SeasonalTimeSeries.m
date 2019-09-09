@@ -4,8 +4,9 @@
 % 80% or more of the "seasons" (seasons being Spring/Fall for each year
 % from 2012 to present).
 
-% Bookkeeping: add 'functions' to the path and close all open figures.
+% Bookkeeping: add 'functions' and 'polygons' to the path, make 'exports' and close all open figures.
 addpath('../functions');
+addpath('../polygons');
 mkdir('exports');
 close all
 
@@ -20,7 +21,6 @@ else
     disp('Previously imported Data found; type "clear all" if not desired')
 end
 
-addpath('../polygons');
 load cv_outline
 polygon = [cvX' cvY'];
 
