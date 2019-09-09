@@ -56,6 +56,7 @@ function Data = import_opendata()
     Data.MeasurementData.stn_id = tmp.STN_ID;
     Data.MeasurementData.water_surface_reading = tmp.RDNG_WS;
     Data.MeasurementData.site_code = tmp.SITE_CODE;
+    Data.MeasurementData.quality_comment = tmp.WLM_QA_DESC;
     
     % populate perforation data
     

@@ -3,7 +3,19 @@ function Data_filt = spatial_filter_polygon(Data, polygon, varargin)
 % polygon, then returns a clipped Data structure representing wells and
 % measurements within the polygon. Polygon should contain vertices of
 % polygon in format [LON LAT] where LON, LAT are column vectors. 
-
+    
+    % Check the polygon is specified in the right way, else exit with error
+    % message.
+    if class(polygon)=='char'
+        if contains(polygon,'kml')
+            fprintf("\tDetected you are trying to use a .kml polygon. It won't work!\n\tConsider instead using the function GIS_wells_from_polygon_kml.\n\tAborting!")
+            return
+        else
+        fprintf("\tLooks like your polygon is not in the right input format.\n\t Polygon should contain vertices of polygon in format [LON LAT] where LON, LAT are column vectors.\n\tAborting!") 
+        return
+        end
+    end
+    
     if nargin == 3
         infolevel = varargin{1};
         fprintf('\nRunning data filt with info level = %i \n',infolevel)
