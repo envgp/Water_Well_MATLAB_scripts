@@ -2,7 +2,9 @@ function [seasonaltimeseries,labels] = calc_seasonal_timeseries(Data,startyear,e
 % [DataTable] = calc_seasonal_timeseries(Data,startyear,endyear) takes a
 % Data instance and returns table with colums containing Well Info then
 % depth to water for spring and fall for each year in the range startyear
-% -> endyear. 
+% -> endyear. For definitions of spring and fall, see the function
+% 'temporal_filter_season' . 
+
 
 years = startyear:endyear;
 
