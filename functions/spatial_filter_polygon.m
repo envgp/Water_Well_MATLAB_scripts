@@ -6,7 +6,7 @@ function Data_filt = spatial_filter_polygon(Data, polygon, varargin)
     
     % Check the polygon is specified in the right way, else exit with error
     % message.
-    if class(polygon)=='char'
+    if isa(polygon,'char')
         if contains(polygon,'kml')
             fprintf("\tDetected you are trying to use a .kml polygon. It won't work!\n\tConsider instead using the function GIS_wells_from_polygon_kml.\n\tAborting!")
             return
