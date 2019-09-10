@@ -1,9 +1,18 @@
-function [x y depth stn_id site_code] = calc_water_levels_woduplicates(Data,method)
+function [x y depth stn_id site_code] = calc_water_levels_woduplicates(Data,method,varargin)
 % [x y depth stn_id site_code] = calc_water_levels_woduplicates(Data,method) returns
 % positions and depth to water for wells within Data, removing wells with
 % duplicate measurements according to method. Sofar, method can only be
 % 'average', where wells with two measurements are replaced by the average
 % of the two measurements.
+
+if length(varargin)>0
+    if strcmpi(varargin{1},'silent')
+        fprintf('Silent mode!\n')
+        silent=true();
+    end
+else
+    silent=false();
+end
 
 fprintf('Calculating water levels. This function takes the mean of water levels for any wells with multiple measurements.\n')
 
@@ -33,7 +42,9 @@ for i = 1:length(ind)
     idx = find(Lia);
     repidx = find(bsxfun(@eq,id(idx),stn_ids(:))); % finds indices of other instances of the same stn id
     if idlast~=id
-        fprintf('\tStn id %.0f found to have %i measurements. Taking average. \n', id,length(repidx));
+        if silent==false()
+            fprintf('\tStn id %.0f found to have %i measurements. Taking average. \n', id,length(repidx));
+        end
     end
     tmpdepths = depth_withdup(repidx);
     avgdepth = mean(tmpdepths,'omitnan'); % calculate the mean depth
