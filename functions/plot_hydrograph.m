@@ -1,4 +1,6 @@
 function fig = plot_hydrograph(Data,well_id)
+% plot_hydrograph(Data,well_id)
+%
 % Plots a hydrograph for a given well specified by it's well_id. well_id
 % refers to site_code in OpenData Periodic Groundwater Measurements and the Water Data Library, but is CASGEM
 % id in the CASGEM dataset. well_id should be a character vector of form
