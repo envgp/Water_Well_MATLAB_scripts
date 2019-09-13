@@ -4,6 +4,8 @@ function [seasonaltimeseries,labels] = calc_seasonal_timeseries(Data,startyear,e
 % depth to water for spring and fall for each year in the range startyear
 % -> endyear. For definitions of spring and fall, see the function
 % 'temporal_filter_season' . 
+%
+% vargin: if 'silent' is passed as an argument it won't print anything out.
 
 % Check if we're in silent mode.
 if length(varargin)>0
@@ -11,9 +13,9 @@ if length(varargin)>0
     if strcmpi(varargin{1},'silent')
         fprintf('Silent mode!\n')
         silent=true();
-    else
-        silent=false();
     end
+else
+    silent=false();
 end
 
 years = startyear:endyear;
