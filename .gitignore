@@ -1,66 +1,66 @@
 .DS_Store
-	exports/
-	foothills_GIS/
-	functions/hello.kmz
-	functions/import_nicelydata.m~
-	functions/import_opendata.m~
-	functions/wells_East_Central_Valley_allmsmts_NoQAConcerns_20132019.csv
-	opendata_files/PerforationsDataDictionary.csv
-	opendata_files/measurements.csv
-	opendata_files/metadata.txt
-	opendata_files/periodic_gwl_bulkdatadownload.zip
-	polygons/Eastern_edge_of_Central_Valley.kml
-	polygons/Region_B.kml
-	polygons/S4_Tulare_boundaries.dbf
-	polygons/S4_Tulare_boundaries.shp
-	polygons/S4_Tulare_boundaries.shx
-	polygons/SanJoaquin_HUC4.kml
-	polygons/Subsidence_Bowl_Bigger.kml
-	polygons/Subsidence_Bowl_Biggest.kml
-	polygons/Subsidence_Bowl_Centre.kml
-	polygons/data (1)/
-	polygons/gwaterbasins_all/
-	polygons/kaweah_subbasin.mat
-	polygons/studyarea_threeGWbasins2.kml
-	scripts/CC_shallow_wells.csv
-	scripts/HUC4_get_waterlevels_SeasonalTimeSeries_KMLMAKER.m
-	scripts/Spring2015.csv
-	scripts/Spring2016.csv
-	scripts/Spring2017.csv
-	scripts/Spring2018.csv
-	scripts/Spring2019.csv
-	scripts/Subsidence_Bowl_Seasonal_Timeseries.kmz
-	scripts/TESTMEREDITH.m
-	scripts/alexli_exports/
-	scripts/compare_USGS_DWR.m
-	scripts/contour_kaweah_watertable.m
-	scripts/create_kmz_for_East_Edge_Sierras.m
-	scripts/create_wells_East_Edge_CV.m
-	scripts/deeperthan400ft_Spring2017.csv
-	scripts/example_WELLFILTERING.m
-	scripts/figures/
-	scripts/finalkml.kml
-	scripts/finalkml_HUC4.kml
-	scripts/finalkml_RegionB.kml
-	scripts/get_noahs_data.m
-	scripts/get_waterlevels_AlexLi.m
-	scripts/get_well_timeseries_SubsidenceBowl.m
-	scripts/hello.kmz
-	scripts/hello.zip
-	scripts/hydrograph_images/
-	scripts/hydrograph_images_HUC4/
-	scripts/hydrograph_images_RegionB/
-	scripts/hydrograph_images_tmp/
-	scripts/make_histograms.m
-	scripts/make_histograms_perforations.m
-	scripts/make_kaweah_histograms.m
-	scripts/make_plots.m
-	scripts/make_ryan_comparison.m
-	scripts/meredith_version.mat
-	scripts/shallowerthan400ft_Spring2017.csv
-	scripts/shallowerthan400ft_Spring2017.txt
-	scripts/temp_old/
-	scripts/testytest.csv
-	scripts/wells_East_Central_Valley_allmsmts20132019.csv
-	scripts/wells_East_Central_Valley_allmsmts_NoQAConcerns_20132019.csv
-	scripts/wells_Subsidence_Bowl_Center.csv
+exports/
+foothills_GIS/
+functions/hello.kmz
+functions/import_nicelydata.m~
+functions/import_opendata.m~
+functions/wells_East_Central_Valley_allmsmts_NoQAConcerns_20132019.csv
+opendata_files/PerforationsDataDictionary.csv
+opendata_files/measurements.csv
+opendata_files/metadata.txt
+opendata_files/periodic_gwl_bulkdatadownload.zip
+polygons/Eastern_edge_of_Central_Valley.kml
+polygons/Region_B.kml
+polygons/S4_Tulare_boundaries.dbf
+polygons/S4_Tulare_boundaries.shp
+polygons/S4_Tulare_boundaries.shx
+polygons/SanJoaquin_HUC4.kml
+polygons/Subsidence_Bowl_Bigger.kml
+polygons/Subsidence_Bowl_Biggest.kml
+polygons/Subsidence_Bowl_Centre.kml
+polygons/data (1)/
+polygons/gwaterbasins_all/
+polygons/kaweah_subbasin.mat
+polygons/studyarea_threeGWbasins2.kml
+scripts/CC_shallow_wells.csv
+scripts/HUC4_get_waterlevels_SeasonalTimeSeries_KMLMAKER.m
+scripts/Spring2015.csv
+scripts/Spring2016.csv
+scripts/Spring2017.csv
+scripts/Spring2018.csv
+scripts/Spring2019.csv
+scripts/Subsidence_Bowl_Seasonal_Timeseries.kmz
+scripts/TESTMEREDITH.m
+scripts/alexli_exports/
+scripts/compare_USGS_DWR.m
+scripts/contour_kaweah_watertable.m
+scripts/create_kmz_for_East_Edge_Sierras.m
+scripts/create_wells_East_Edge_CV.m
+scripts/deeperthan400ft_Spring2017.csv
+scripts/example_WELLFILTERING.m
+scripts/figures/
+scripts/finalkml.kml
+scripts/finalkml_HUC4.kml
+scripts/finalkml_RegionB.kml
+scripts/get_noahs_data.m
+scripts/get_waterlevels_AlexLi.m
+scripts/get_well_timeseries_SubsidenceBowl.m
+scripts/hello.kmz
+scripts/hello.zip
+scripts/hydrograph_images/
+scripts/hydrograph_images_HUC4/
+scripts/hydrograph_images_RegionB/
+scripts/hydrograph_images_tmp/
+scripts/make_histograms.m
+scripts/make_histograms_perforations.m
+scripts/make_kaweah_histograms.m
+scripts/make_plots.m
+scripts/make_ryan_comparison.m
+scripts/meredith_version.mat
+scripts/shallowerthan400ft_Spring2017.csv
+scripts/shallowerthan400ft_Spring2017.txt
+scripts/temp_old/
+scripts/testytest.csv
+scripts/wells_East_Central_Valley_allmsmts20132019.csv
+scripts/wells_East_Central_Valley_allmsmts_NoQAConcerns_20132019.csv
+scripts/wells_Subsidence_Bowl_Center.csv
