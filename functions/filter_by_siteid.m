@@ -5,9 +5,8 @@ function Data_filt = filter_by_siteid(Data, well_id)
 % id in the CASGEM dataset. well_id should be a character vector of form
 % (for example) '361089N1194293W001'.
 
-    LIA = ismember(Data.MeasurementData.site_code(:),well_id);
+    LIA = ismember(Data.WellData.site_code(:),well_id);
 
-    Data_filt = filter_logical(Data,true([length(Data.WellData.stn_id(:)) 1]), LIA);
+    Data_filt = filter_logical_new(Data,'WellData', LIA);
 
-    Data_filt = remove_wells_wo_measurements(Data_filt);
 end

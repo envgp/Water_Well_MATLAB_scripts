@@ -1,8 +1,7 @@
 function Data = import_opendata()
-% Imports data downloaded from CaNRA OpenData
-% (https://data.cnra.ca.gov/dataset/periodic-groundwater-level-measurements)
+% Imports data downloaded from CaNRA OpenData (https://data.cnra.ca.gov/dataset/periodic-groundwater-level-measurements)
 % files. The files 'stations.csv', 'measurements.csv' and 'performations.csv' should be
-% downloaded in folder '../opendata_files'. THIS SCRIPT IS IN TRANSITION
+% downloaded to the folder '../opendata_files'. THIS SCRIPT IS IN TRANSITION
 % AND NOW AUTOMATICALLY DOWNLOADS THE LATEST FROM THE INTERNET! It doesn't
 % quite work yet as it doesn't delete the old 'zip' file before downloading
 % a new one, so we simply unzip the same data each time....
@@ -42,8 +41,14 @@ function Data = import_opendata()
     Data.WellData.well_depth = tmp.WELL_DEPTH;
     Data.WellData.latitude = tmp.LATITUDE;
     Data.WellData.longitude = tmp.LONGITUDE;
-    Data.WellData.site_code = tmp.SITE_CODE;
+    Data.WellData.site_code = tmp.SITE_CODE; % This is the CASGEM site code.
     Data.WellData.well_use = tmp.WELL_USE;
+    A = strings(length(tmp.STN_ID),1);
+    A(:) = "CASGEM";
+    Data.WellData.datasource = A;
+    Data.WellData.is_cclay = strings(length(tmp.STN_ID),1); % CASGEM data doesn't have an is_cclay determinant.
+    Data.WellData.aquifer = strings(length(tmp.STN_ID),1); % CASGEM data doesn't have an aquifer determinant.
+    Data.WellData.nicely_site_code = strings(length(tmp.STN_ID),1); % CASGEM data doesn't have a nicely site code, clearly!
     
     % populate measurement data
     fprintf('\treading measurements.csv; may take some time\n')
@@ -55,7 +60,7 @@ function Data = import_opendata()
     Data.MeasurementData.ref_point_reading = tmp.RDNG_RP;
     Data.MeasurementData.stn_id = tmp.STN_ID;
     Data.MeasurementData.water_surface_reading = tmp.RDNG_WS;
-    Data.MeasurementData.site_code = tmp.SITE_CODE;
+    Data.MeasurementData.site_code = tmp.SITE_CODE; 
     Data.MeasurementData.quality_comment = tmp.WLM_QA_DESC;
     
     % populate perforation data
