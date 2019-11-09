@@ -19,5 +19,5 @@ end
 
 
 fprintf('\tCreating kml file.\n')
-kmlwrite(outname,Data.WellData.latitude, Data.WellData.longitude, 'Name', Data.WellData.nicely_site_code, 'Description',description)
+kmlwrite(outname,Data.WellData.latitude, Data.WellData.longitude, 'Description',description)
 end

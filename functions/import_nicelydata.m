@@ -48,5 +48,10 @@ Data.MeasurementData.datasource = A;
 
 Data.PerfData.stn_id = tmp_wells.CRNASTN_ID;
 Data.PerfData.site_code = tmp_wells.CASGEMSITE_CODE;
-Data.PerfData.top_perf = tmp.TOP_SCRN;
-Data.PerfData.bot_perf = tmp.BOT_SCRN;
+Data.PerfData.top_perf = tmp_wells.TOP_SCRN;
+Data.PerfData.bot_perf = tmp_wells.BOT_SCRN;
+Data.PerfData.nicely_site_code = tmp_wells.KSB_ID;
+A = strings(length(tmp_wells.CRNASTN_ID),1);
+A(:) = "Nicely";
+Data.PerfData.datasource = A;
+

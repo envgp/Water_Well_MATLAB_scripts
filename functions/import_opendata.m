@@ -90,6 +90,11 @@ Data.PerfData.stn_id = tmp.STN_ID;
 Data.PerfData.site_code = tmp.SITE_CODE;
 Data.PerfData.top_perf = tmp.TOP_PRF;
 Data.PerfData.bot_perf = tmp.BOT_PRF;
+A = strings(length(tmp.STN_ID),1);
+A(:) = "CASGEM";
+Data.PerfData.datasource = A;
+Data.PerfData.nicely_site_code = nan(length(tmp.STN_ID),1);
+
 
 cd(oldfolder)
 
