@@ -11,7 +11,7 @@ function Data_filt = remove_perforations_wo_wells(Data)
     listperf_withwells_CASGEM = ismember(Data.PerfData.stn_id(CASGEMS),Data.WellData.stn_id(:));
     listperf_withwells_NICELY = ismember(Data.PerfData.nicely_site_code(NICELYS),Data.WellData.nicely_site_code(:));
 
-    listperf_withwells=[listperf_withwells_CASGEM listperf_withwells_NICELY];
+    listperf_withwells=[listperf_withwells_CASGEM; listperf_withwells_NICELY];
 
     
     Data_filt = Data;
