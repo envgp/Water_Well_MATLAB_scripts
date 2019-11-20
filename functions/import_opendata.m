@@ -1,4 +1,6 @@
 function Data = import_opendata(varargin)
+% import_opendata(varargin) : available flags = 'nofetch'
+% 
 % Imports data downloaded from CaNRA OpenData (https://data.cnra.ca.gov/dataset/periodic-groundwater-level-measurements)
 % files. The files 'stations.csv', 'measurements.csv' and 'performations.csv' should be
 % downloaded to the folder '../opendata_files'. THIS SCRIPT IS IN TRANSITION
@@ -93,7 +95,7 @@ Data.PerfData.bot_perf = tmp.BOT_PRF;
 A = strings(length(tmp.STN_ID),1);
 A(:) = "CASGEM";
 Data.PerfData.datasource = A;
-Data.PerfData.nicely_site_code = nan(length(tmp.STN_ID),1);
+Data.PerfData.nicely_site_code = strings(length(tmp.STN_ID),1);
 
 
 cd(oldfolder)
