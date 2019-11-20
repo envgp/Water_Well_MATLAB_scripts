@@ -6,8 +6,8 @@ fprintf("Importing Tim Nicely data.\n")
 oldfolder = cd;
 cd ..
 
-fprintf('\tReading data in %s/Tim_Nicely_data/KSB Water Level Master List_Filtered for Duplicates_sort.xlsx. May take some time...',pwd)
-tmp = readtable('Tim_Nicely_data/KSB Water Level Master List_Filtered for Duplicates_sort.xlsx');
+fprintf('\tReading data in %s/Tim_Nicely_data/KSBWaterLevelMasterList_FilteredforDuplicates_sort.xlsx. May take some time...',pwd)
+tmp = readtable(sprintf('%s/Tim_Nicely_data/KSBWaterLevelMasterList_FilteredforDuplicates_sort.xlsx',pwd));
 
 cd(oldfolder)
 
@@ -33,12 +33,12 @@ Data.WellData.nicely_site_code = tmp_wells.KSB_ID;
 
 Data.MeasurementData.date = tmp.MSMT_DATE;
 Data.MeasurementData.ground_surface_elevation = str2double(tmp.GSE_DEM); % Take the DEM reported GSE; note that sometimes this isn't the same as the 'reported' one. Some NaNs appear doing this as some of the GSE have 'null' as their value.
-Data.MeasurementData.reference_point_elevation = nan(length(tmp.MSMT_DATE),1); % Not needed
-Data.MeasurementData.ref_point_reading = nan(length(tmp.MSMT_DATE),1);
+Data.MeasurementData.reference_point_elevation = zeros(length(tmp.MSMT_DATE),1); % Not needed
+Data.MeasurementData.ref_point_reading = zeros(length(tmp.MSMT_DATE),1);
 Data.MeasurementData.stn_id = tmp.CRNASTN_ID;
 Data.MeasurementData.water_surface_reading = nan(length(tmp.MSMT_DATE),1);
 Data.MeasurementData.site_code = tmp.CASGEMSITE_CODE; 
-Data.MeasurementData.quality_comment = nan(length(tmp.MSMT_DATE),1);
+Data.MeasurementData.quality_comment = strings(length(tmp.MSMT_DATE),1);
 Data.MeasurementData.water_surface_elevation = tmp.WSE;
 A = strings(length(tmp.MSMT_DATE),1);
 A(:) = "Nicely";
