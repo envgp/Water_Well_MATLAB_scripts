@@ -1,4 +1,7 @@
 function Data_filt = spatial_filter_polygon(Data, polygon, varargin)
+% Data_filt = spatial_filter_polygon(Data,polygon,varargin) : available
+% vargs = 'infolevel'.
+%
 % Function takes a Data structure and a array of XY coordinates which form a
 % polygon, then returns a clipped Data structure representing wells and
 % measurements within the polygon. Polygon should contain vertices of
