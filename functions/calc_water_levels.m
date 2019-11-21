@@ -1,5 +1,7 @@
 function depth = calc_water_levels(Data,ryan)
-% Calculates depth to water level for a given Data structure. At the moment this function is for CASGEM data; a slightly different forumation is used for Nicely data, which can be incorporated here at a later date.
+% depth = calc_water_levels(Data,ryan)
+% Calculates depth to water level for a given Data structure. When ryan=0,
+% this works for both CASGEM and Nicely data.
 % If ryan is true, we don't use 'Water Level Reading' in calculating depth; if ryan is false, we do. To
 % read a litte about this, have a look at
 % https://data.cnra.ca.gov/dataset/periodic-groundwater-level-measurements/resource/bfa9f262-24a1-45bd-8dc8-138bc8107266
@@ -23,7 +25,7 @@ function depth = calc_water_levels(Data,ryan)
 %         NaNs = ~isnan(Data.MeasurementData.water_surface_reading(:));
         CASGEMS = ismember(Data.MeasurementData.datasource,'CASGEM');
         NICELYS = ismember(Data.MeasurementData.datasource,'Nicely');
-        fprintf('\tFound %i measurements from CASGEM and %i from Tim Nicely. Calculating depths to water for both.',sum(CASGEMS),sum(NICELYS))
+        %fprintf('\tFound %i measurements from CASGEM and %i from Tim Nicely. Calculating depths to water for both.',sum(CASGEMS),sum(NICELYS))
         depth(CASGEMS) = Data.MeasurementData.ground_surface_elevation(CASGEMS) - Data.MeasurementData.reference_point_elevation(CASGEMS) + Data.MeasurementData.ref_point_reading(CASGEMS) - Data.MeasurementData.water_surface_reading(CASGEMS);
         depth(NICELYS) = Data.MeasurementData.ground_surface_elevation(NICELYS) - Data.MeasurementData.water_surface_elevation(NICELYS);
     end
