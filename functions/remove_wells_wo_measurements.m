@@ -3,7 +3,7 @@ function Data_filt = remove_wells_wo_measurements(Data)
     
     %fprintf('Running remove_wells_wo_measurements.\n')
     
-    listwells_withmeas = ismember(Data.WellData.stn_id(:),Data.MeasurementData.stn_id(:));
+    listwells_withmeas = ismember(Data.WellData.stn_id(:),Data.MeasurementData.stn_id(:)) | ismember(Data.WellData.nicely_site_code(:),Data.MeasurementData.nicely_site_code(:));
     
     Data_filt = Data;
     
