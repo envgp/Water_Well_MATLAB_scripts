@@ -9,8 +9,7 @@ function [seasonaltimeseries,labels] = calc_seasonal_timeseries(Data,startyear,e
 
 % Check if we're in silent mode.
 if length(varargin)>0
-
-    if strcmpi(varargin{1},'silent')
+    if sum(strcmpi('silent',varargin))
         fprintf('Silent mode!\n')
         silent=true();
     end
@@ -27,13 +26,16 @@ for i = 1:length(years)
     Datatemp= temporal_filter_season(temporal_filter_year(Data,years(i)),'spring');
     
     if silent==false()
-        [~,~,waterlevels,stnid,sitecode] = calc_water_levels_woduplicates(Datatemp,'average');
+        [~,~,waterlevels,stnid,sitecode] = calc_water_levels_woduplicates(Datatemp,'average','multisource');
     else
-        [~,~,waterlevels,stnid,sitecode] = calc_water_levels_woduplicates(Datatemp,'average','silent');
+        [~,~,waterlevels,stnid,sitecode] = calc_water_levels_woduplicates(Datatemp,'average','silent','multisource');
     end
         
     for j = 1:length(waterlevels)
-        indx = ismember(Data.WellData.stn_id(:),stnid(j));
+        indx = ismember(string(Data.WellData.stn_id(:)),string(stnid(j)));
+        if ~ indx
+            indx = ismember(string(Data.WellData.nicely_site_code(:)),string(stnid(j))); % Check if it might be a Nicely site code instead.
+        end
         seasonaltimeseries(indx,3*i-2) = waterlevels(j);
     end
     
@@ -42,11 +44,15 @@ for i = 1:length(years)
     if silent==false()
         [~,~,waterlevels,stnid,sitecode] = calc_water_levels_woduplicates(Datatemp,'average');
     else
-        [~,~,waterlevels,stnid,sitecode] = calc_water_levels_woduplicates(Datatemp,'average','silent');
+        [~,~,waterlevels,stnid,sitecode] = calc_water_levels_woduplicates(Datatemp,'average','silent','multisource');
     end
     for j = 1:length(waterlevels)
-        indx = ismember(Data.WellData.stn_id(:),stnid(j));
-        seasonaltimeseries(indx,3*i -1 ) = waterlevels(j);
+        indx = ismember(string(Data.WellData.stn_id(:)),string(stnid(j)));
+        if ~ indx
+            indx = ismember(string(Data.WellData.nicely_site_code(:)),string(stnid(j))); % Check if it might be a Nicely site code instead.
+        end
+        seasonaltimeseries(indx,3*i-1) = waterlevels(j);
+
     end
     
     labels(3*i) = sprintf('Difference_%i', years(i));
