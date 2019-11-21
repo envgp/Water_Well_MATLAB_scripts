@@ -1,4 +1,5 @@
-function create_wells_kmz(Data,outname)
+function create_wells_kml(Data,outname)
+% create_wells_kmz(Data,outname)
 % Exports a kmz containing well data for all the wells in Data. Outname is
 % a string which is the outputfile it will be saved as.
 
