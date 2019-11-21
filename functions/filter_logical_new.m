@@ -1,4 +1,5 @@
 function Data_filt = filter_logical_new(Data,filterby,logical)
+% Data_filt = filter_logical_new(Data,filterby,logical)
 % Returns a new Data structure given an existing data structure, a subfield
 % by which to filter (WellData, MeasurementData or PerfData) and a logical
 % corresponding to that subfield. The logical has to be the same length as
