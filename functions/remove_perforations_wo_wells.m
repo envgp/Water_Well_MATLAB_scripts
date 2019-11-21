@@ -2,7 +2,7 @@ function Data_filt = remove_perforations_wo_wells(Data)
 % Takes a data structure and removes any perforations which do not have
 % corresponding wells.
 
-    fprintf('\nRunning remove_perforations_wo_wells\n')
+    %fprintf('\nRunning remove_perforations_wo_wells\n')
     
     CASGEMS = ismember(Data.PerfData.datasource,'CASGEM');
     NICELYS = ismember(Data.PerfData.datasource,'Nicely');
