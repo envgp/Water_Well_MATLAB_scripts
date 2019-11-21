@@ -17,7 +17,7 @@ function Data_filt = filter_logical_new(Data,filterby,logical)
         Data_filt = remove_perforations_wo_wells(Data_filt);
     end
  
-    if strcmp(filterby,'MeasurementData') %NB untested as of dec 13th
+    if strcmp(filterby,'MeasurementData') 
         fields = fieldnames(Data.MeasurementData);
         Data_filt = Data;
 
