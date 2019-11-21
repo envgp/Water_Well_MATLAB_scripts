@@ -43,7 +43,7 @@ for i=1:length(ids)
     end
 
     f = figure('visible','off');
-    plot_hydrograph(Data,ids{i},'flagQC')
+    plot_hydrograph(Data,ids{i},'multisource')
 %    set(gcf, 'PaperUnits', 'inches');
 %    set(gcf, 'PaperSize', [4 2]);
     xlim([datenum(sprintf('01/01/%i', startyear)) datenum(sprintf('12/31/%i', endyear))])
