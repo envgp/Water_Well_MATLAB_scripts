@@ -15,7 +15,7 @@ function create_seasonal_timeseries_kmz(Data,outname,startyear,endyear,varargin)
 % Check if we're in silent mode
 fprintf('Running create_seasonal_timeseries_kmz.\n')
 fprintf('\tForming seasonal timeseries between %i and %i.\n', startyear,endyear)
-[seasonaltimeseries,seasons] = calc_seasonal_timeseries(Data,startyear,endyear,'silent'); % Calculate the time series.
+[seasonaltimeseries,seasons] = calc_seasonal_timeseries(Data,startyear,endyear,'silent','multisource'); % Calculate the time series.
 seasonaltimeseries(:,3:3:end) = []; % The third column is 'difference'. We don't want that, so remove it.
 seasons(:,3:3:end) = []; % ditto
 
