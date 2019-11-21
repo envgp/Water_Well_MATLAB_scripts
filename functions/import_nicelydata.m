@@ -43,6 +43,7 @@ Data.MeasurementData.water_surface_elevation = tmp.WSE;
 A = strings(length(tmp.MSMT_DATE),1);
 A(:) = "Nicely";
 Data.MeasurementData.datasource = A;
+Data.MeasurementData.nicely_site_code = tmp.KSB_ID;
 
 % Load Perforations Section (haven't checked this is right yet - compare duplicate wells with CASGEM to check)
 
