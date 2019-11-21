@@ -83,6 +83,7 @@ Data.MeasurementData.water_surface_elevation = nan(length(tmp.MSMT_DATE),1); % W
 A = strings(length(tmp.STN_ID),1);
 A(:) = "CASGEM";
 Data.MeasurementData.datasource = A;
+Data.MeasurementData.nicely_site_code = strings(length(tmp.MSMT_DATE),1); % clearly not defined for CASGEM data!
 
 % populate perforation data
 
