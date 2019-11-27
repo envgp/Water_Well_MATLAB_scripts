@@ -19,11 +19,6 @@ mkdir('hydrograph_images_tmp')
 description = cell(1,length(Data.WellData.stn_id));
 
 for i = 1:length(Data.WellData.stn_id)
-    if i ==1
-        fprintf('\t%i out of %i wells completed (printing progress every 20).\n', i, length(Data.WellData.stn_id))
-    elseif rem(i,20)==0
-        fprintf('\t%i out of %i wells completed.\n', i, length(Data.WellData.stn_id))
-    end
 
     fields = fieldnames(Data.WellData);
     B = strjoin(repmat("%s = %s <br>",1,length(fields)));
@@ -52,6 +47,14 @@ for i = 1:length(Data.WellData.stn_id)
     f.PaperUnits='inches';
     print(sprintf('hydrograph_images_tmp/hydrograph%i.png',i),'-dpng','-r100');
     description{i} = strcat(sprintf('<img style="max-width:500px;" src="hydrograph_images_tmp/hydrograph%i.png"><br>',i),description{i});
+    close(f)
+    
+    if i ==1
+        fprintf('\t%i out of %i wells completed (printing progress every 20).\n', i, length(Data.WellData.stn_id))
+    elseif rem(i,20)==0
+        fprintf('\t%i out of %i wells completed.\n', i, length(Data.WellData.stn_id))
+    end
+
 end
 
 
