@@ -6,7 +6,7 @@ fprintf("Importing Tim Nicely data.\n")
 oldfolder = cd;
 cd ..
 
-fprintf('\tReading data in %s/Tim_Nicely_data/KSBWaterLevelMasterList_FilteredforDuplicates_sort.xlsx. May take some time...',pwd)
+fprintf('\tReading data in %s/Tim_Nicely_data/KSBWaterLevelMasterList_FilteredforDuplicates_sort.xlsx.\n\tMay take some time...',pwd)
 tmp = readtable(sprintf('%s/Tim_Nicely_data/KSBWaterLevelMasterList_FilteredforDuplicates_sort.xlsx',pwd));
 
 cd(oldfolder)
