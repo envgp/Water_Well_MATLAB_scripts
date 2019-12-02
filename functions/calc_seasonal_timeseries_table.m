@@ -19,7 +19,7 @@ end
 
 years = startyear:endyear;
 
-seasonaltimeseries = zeros(length(Data.WellData.stn_id(:)),3*length(years));
+seasonaltimeseries = nan(length(Data.WellData.stn_id(:)),3*length(years));
 
 for i = 1:length(years)
     labels(3*i -2) = sprintf("Spring%i", years(i));
