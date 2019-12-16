@@ -1,8 +1,8 @@
 function create_hydrograph_kmz(Data,outname)
 % create_hydrograph_kmz(Data,outname)
 % Creates a kmz containing wells and hydrographs for a data instance.
-% Outname should be 'NAME.kml'. This all operates in the current working
-% directory...can make it move stuff to exports if you like.
+% Outname should be 'NAME.kml'. The output is placed in exports, in a
+% folder called NAME.
 
 
 %% Main code: don't edit this bit
@@ -17,6 +17,7 @@ cd(stub)
 mkdir('hydrograph_images_tmp')
 
 description = cell(1,length(Data.WellData.stn_id));
+name = cell(1,length(Data.WellData.stn_id));
 
 for i = 1:length(Data.WellData.stn_id)
 
@@ -47,6 +48,13 @@ for i = 1:length(Data.WellData.stn_id)
     f.PaperUnits='inches';
     print(sprintf('hydrograph_images_tmp/hydrograph%i.png',i),'-dpng','-r100');
     description{i} = strcat(sprintf('<img style="max-width:500px;" src="hydrograph_images_tmp/hydrograph%i.png"><br>',i),description{i});
+    
+    if ~isnan(Data.WellData.stn_id(i))
+        name{i}=int2str(Data.WellData.stn_id(i));
+    else
+        name{i}=Data.WellData.nicely_site_code{i};
+    end
+    
     close(f)
     
     if i ==1
@@ -59,7 +67,7 @@ end
 
 
 fprintf('\tCreating kml file.\n')
-kmlwrite(outname,Data.WellData.latitude, Data.WellData.longitude, 'Description',description);
+kmlwrite(outname,Data.WellData.latitude, Data.WellData.longitude,'Name',name, 'Description',description);
 
 GIS_kml2kmz(outname);
 
