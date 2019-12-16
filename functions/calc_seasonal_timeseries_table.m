@@ -10,7 +10,6 @@ function T = calc_seasonal_timeseries_table(Data,startyear,endyear,varargin)
 % Check if we're in silent mode.
 if length(varargin)>0
     if sum(strcmpi('silent',varargin))
-        fprintf('Silent mode!\n')
         silent=true();
     end
 else
