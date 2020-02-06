@@ -1,6 +1,9 @@
 function Data_merged = merge_duplicates_casgem_nicely(Data)
-% A "merge duplicates" function. Still in development; only merges on wells not measurements. How it works:
-
+% A "merge duplicates" function. It should now work but I haven't tested it
+% extensively...
+%
+%
+% LEGACY: how it works/plan:
 % For wells: if it is from 'nicely', then I want to check if it has a CASGEM site number. If so, I want to:
 %    - check if the CASGEM site code OR CASGEM stn id exists as a separate entry in the same data structure
 %    - if so, copy across the nicely well info (eg, aquifer, is_cc, etc) into the CASGEM version
@@ -78,4 +81,38 @@ Data_merged = merge_datastructures(CasgemData,Nicelydata_new);
 % go with the correct well. That is, the Measurement data need to have
 % stn_id on them at the end of this process.
 
+% Now get a list of 'casgem and nicely' well Nicely site codes
+
+logical_nicelycasgem = Data_merged.WellData.datasource == 'CASGEM and Nicely (merged)';
+duplicate_nicely_site_codes = Data_merged.WellData.nicely_site_code(logical_nicelycasgem);
+duplicate_site_codes = Data_merged.WellData.site_code(logical_nicelycasgem);
+
+% Now loop over each of these site codes, and for each one, find the
+% nicely measurements and copy them across to the CASGEM well. 
+
+for i = 1:length(duplicate_nicely_site_codes)
+    nicelysitecode = duplicate_nicely_site_codes{i};
+    sitecode = duplicate_site_codes{i};
+    
+    logical_nicelymeasurements = Data_merged.MeasurementData.nicely_site_code == nicelysitecode;
+    corresponding_sitecodes = Data_merged.MeasurementData.site_code(logical_nicelymeasurements);
+    if sum(cellfun(@isempty,corresponding_sitecodes))>0
+        % Find the actual sitecode from the well
+        fprintf('Copying casgem site codes to measurements from nicely well %s. \n', nicelysitecode)
+        well_logical = Data_merged.WellData.nicely_site_code == nicelysitecode;
+        site_code_to_add = Data_merged.WellData.site_code{well_logical};
+        Data_merged.MeasurementData.site_code(logical_nicelymeasurements) = repmat({site_code_to_add},sum(logical_nicelymeasurements),1);
+    end
+end
+%     dates=
+%     Data.MeasurementData.date = tmp.MSMT_DATE;
+%     Data.MeasurementData.ground_surface_elevation = str2double(tmp.GSE_DEM); % Take the DEM reported GSE; note that sometimes this isn't the same as the 'reported' one. Some NaNs appear doing this as some of the GSE have 'null' as their value.
+% Data.MeasurementData.water_surface_elevation = tmp.WSE;
+% A = strings(length(tmp.MSMT_DATE),1);
+% A(:) = "Nicely";
+% Data.MeasurementData.datasource = A;
+% Data.MeasurementData.nicely_site_code = tmp.KSB_ID;
+
+    
+    
 end
