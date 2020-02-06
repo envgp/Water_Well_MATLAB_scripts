@@ -1,4 +1,4 @@
-function depth = calc_water_levels(Data,ryan)
+function [depth,Data_New] = calc_water_levels(Data,ryan,varargin)
 % depth = calc_water_levels(Data,ryan)
 % Calculates depth to water level for a given Data structure. When ryan=0,
 % this works for both CASGEM and Nicely data.
@@ -8,6 +8,23 @@ function depth = calc_water_levels(Data,ryan)
 % where it says, about RDNG_WS, 'Reading on the measurement device at water
 % surface. Typically 0 for electric tape. Generally used for steel tape
 % measurements, however typically is not 0.'. 
+%
+% OPTIONAL ARGUMENTS:
+%
+% If 'NewDataInstance' is present we return a new data instance with a field 'Depth_To_Water'. 
+
+
+    if length(varargin)>0
+        if strcmpi(varargin{1},'NewDataInstance')
+            fprintf('\tNewDataInstance flag detected. Will return depths and a new Data object with new field MeasurementData.Depth_To_Water.\n')
+            NewDataInstance=true();
+        end
+    else
+        NewDataInstance=false();
+        Data_New=0;
+    end
+
+
 
     depth = nan(length(Data.MeasurementData.date),1);
 
@@ -30,4 +47,8 @@ function depth = calc_water_levels(Data,ryan)
         depth(NICELYS) = Data.MeasurementData.ground_surface_elevation(NICELYS) - Data.MeasurementData.water_surface_elevation(NICELYS);
     end
     
+    if NewDataInstance
+        Data_New = Data;
+        Data_New.MeasurementData.Depth_To_Water = depth;
+    end
 end
