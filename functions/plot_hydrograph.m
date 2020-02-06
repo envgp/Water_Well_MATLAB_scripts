@@ -24,7 +24,7 @@ if length(varargin)>0
     end
     
     if sum(strcmpi('multisource',varargin))
-        fprintf('Multisource mode!\n')
+        %fprintf('Multisource mode!\n')
         multisource=true();
     else
         multisource=false();
