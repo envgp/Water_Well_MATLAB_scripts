@@ -12,8 +12,6 @@ function Data_merged = merge_duplicates_casgem_nicely(Data)
 %        - for this, I think I need to check first why there are
 %        differences in the measurements for CASGEM and Nicely.
 
-fprintf('merge_duplicates_casgem_nicely: WARNING: THIS FUNCTION IS NOT FINISHED YET!! It only merges wells, not measurements.\n')
-
 [CasgemData, Nicelydata] = split_by_source(Data,'silent');
 
 % Get a list of CASGEM stn ids and sitecodes from with Nicely data.
