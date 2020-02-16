@@ -7,9 +7,11 @@ function fig = plot_hydrograph(Data,well_id,varargin)
 % (for example) '361089N1194293W001'. Depth to water is calculated using
 % the correct 'Matt' method.
 %
+% OPTIONAL ARGUMENTS
 % Optional argument 'flagQC' plots in red any measurements which have a
 % quality comment attached. Argument 'multisource' plots casgem and nicely
-% data in different colours.
+% data in different colours. Argument 'trendline' plots a trendline if
+% there are >2 measurements.
 %
 % A future version should contain a 'silent' option so that having the QC
 % flag isn't always printed out.
@@ -29,6 +31,18 @@ if length(varargin)>0
     else
         multisource=false();
     end
+    
+    if sum(strcmpi('trendline',varargin))
+        %fprintf('Multisource mode!\n')
+        trendline=true();
+    else
+        trendline=false();
+    end
+
+else
+    flagqc=false();
+    multisource=false();
+    trendline=false()
 
 end
 
@@ -77,18 +91,36 @@ if multisource
     DATA = [datenum(Data_filt.MeasurementData.date(:)), calc_water_levels(Data_filt,0), Data_filt.MeasurementData.datasource=="CASGEM"];
 end
 
+if trendline
+    if length(DATA(~isnan(DATA(:,2)),1)) >=3
+        trend_params = polyfit(DATA(~isnan(DATA(:,2)),1),DATA(~isnan(DATA(:,2)),2),1);
+    end
+end
+
 DATA = sortrows(DATA,1);
 %DATA(any(isnan(DATA),2),:) = []; % Used to do this here; now I do it while
 %plotting.
 
+
+
+% BELOW HERE WE ARE PLOTTING!
+
 if ~multisource % We plot the line separately for the multisource case.
+    hold on
     plot(DATA(~isnan(DATA(:,2)),1),DATA(~isnan(DATA(:,2)),2),'ko-','MarkerFaceColor','black','DisplayName','hydrograph','LineWidth',2); % This line plots only nonNan values. The reason to do this is else the plot is discontinuous.
+    if trendline
+        plot(DATA(~isnan(DATA(:,2)),1),trend_params(1)*DATA(~isnan(DATA(:,2)),1) + trend_params(2),'r--','DisplayName','trendline')
+    end
 end
 
 if flagqc
     hold on
     flag=logical(DATA(:,3));
     plot(DATA(flag,1),DATA(flag,2),'ro','MarkerFaceColor','red','DisplayName','Quality Code');
+    if trendline
+        plot(DATA(~isnan(DATA(:,2)),1),trend_params(1)*DATA(~isnan(DATA(:,2)),1) + trend_params(2),'r--','DisplayName','trendline')
+    end
+
 end
 
 if multisource
@@ -97,7 +129,11 @@ if multisource
     hold on
     plot(DATA(flag,1),DATA(flag,2),'ro','MarkerFaceColor','blue','DisplayName','CASGEM data');
     plot(DATA(~flag,1),DATA(~flag,2),'ro','MarkerFaceColor','green','DisplayName','Nicely data');
+    if trendline
+        plot(DATA(~isnan(DATA(:,2)),1),trend_params(1)*DATA(~isnan(DATA(:,2)),1) + trend_params(2),'r--','DisplayName','trendline')
+    end
 
+end
 
 
 set(gca,'ydir','reverse')
