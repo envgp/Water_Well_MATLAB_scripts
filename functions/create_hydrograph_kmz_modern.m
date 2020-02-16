@@ -1,9 +1,19 @@
-function create_hydrograph_kmz_modern(Data,outname)
+function create_hydrograph_kmz_modern(Data,outname,varargin)
 % create_hydrograph_kmz(Data,outname)
 % Creates a kmz containing wells and hydrographs for a data instance.
 % Outname should be 'NAME.kml'. The output is placed in exports, in a
 % folder called NAME. Takes a Data instance with Depth_To_Water in the
 % measurement section, and expects data merged from Nicely and CASGEM.
+
+
+if length(varargin)>0
+    if strcmpi(varargin{1},'trendline')
+        fprintf('\tTrendline flag detected.\n')
+        trendline=true();
+    end
+else
+    trendline=false();
+end
 
 
 %% Main code: don't edit this bit
@@ -42,8 +52,13 @@ for i = 1:sum(logical_sitecode)
     description{i} = sprintf(B,words);
     
     
-    f = figure('visible','off');
-    plot_hydrograph(Data,Data.WellData.site_code{i},'multisource','silent')
+    f = figure('visible','on');
+    if trendline
+        plot_hydrograph(Data,Data.WellData.site_code{i},'multisource','silent','trendline')
+    else
+        plot_hydrograph(Data,Data.WellData.site_code{i},'multisource','silent')
+    end
+       
     
     
 %    set(gcf, 'PaperUnits', 'inches');
@@ -53,6 +68,7 @@ for i = 1:sum(logical_sitecode)
     %saveas(f,sprintf('hydrograph_images_tmp/hydrograph%i.png',i));
     f.PaperPosition = [0 0 6 3];
     f.PaperUnits='inches';
+    set(gcf,'renderer','zbuffer');
     print(sprintf('hydrograph_images_tmp/hydrograph%i.png',i),'-dpng','-r100');
     description{i} = strcat(sprintf('<img style="max-width:500px;" src="hydrograph_images_tmp/hydrograph%i.png"><br>',i),description{i});
     
