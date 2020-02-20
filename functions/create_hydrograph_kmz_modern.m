@@ -37,6 +37,8 @@ total_number_wells = sum(logical_sitecode) + sum(logical_nicelycode_only);
 
 description = cell(1,total_number_wells);
 name = cell(1,total_number_wells);
+trend = zeros(1,total_number_wells);
+means = zeros(1,total_number_wells);
 
 fprintf('\tDoing CASGEM or combined wells.\n')
 for i = 1:sum(logical_sitecode)
@@ -52,9 +54,9 @@ for i = 1:sum(logical_sitecode)
     description{i} = sprintf(B,words);
     
     
-    f = figure('visible','on');
+    f = figure('visible','off');
     if trendline
-        plot_hydrograph(Data,Data.WellData.site_code{i},'multisource','silent','trendline')
+        [trendy,the_mean] = plot_hydrograph(Data,Data.WellData.site_code{i},'multisource','silent','trendline_return','return_mean');
     else
         plot_hydrograph(Data,Data.WellData.site_code{i},'multisource','silent')
     end
@@ -71,7 +73,8 @@ for i = 1:sum(logical_sitecode)
     set(gcf,'renderer','zbuffer');
     print(sprintf('hydrograph_images_tmp/hydrograph%i.png',i),'-dpng','-r100');
     description{i} = strcat(sprintf('<img style="max-width:500px;" src="hydrograph_images_tmp/hydrograph%i.png"><br>',i),description{i});
-    
+    trend(i) = -365*trendy;
+    means(i) = the_mean;
     name{i}=int2str(Data.WellData.stn_id(i));
     
     close(f)
@@ -98,7 +101,7 @@ for j = sum(logical_sitecode)+1:total_number_wells % Keep going to the end
     
     
     f = figure('visible','off');
-    plot_hydrograph(Data,Data.WellData.nicely_site_code{j},'multisource','silent')
+    [trendy,the_mean] = plot_hydrograph(Data,Data.WellData.nicely_site_code{j},'multisource','silent','trendline_return','return_mean');
     
     
 %    set(gcf, 'PaperUnits', 'inches');
@@ -112,7 +115,8 @@ for j = sum(logical_sitecode)+1:total_number_wells % Keep going to the end
     description{j} = strcat(sprintf('<img style="max-width:500px;" src="hydrograph_images_tmp/hydrograph%i.png"><br>',j),description{j});
     
     name{j}=Data.WellData.nicely_site_code{j};
-    
+    trend(j) = -365*trendy;
+    means(j) = the_mean;
     close(f)
     
     if j ==1
@@ -126,6 +130,8 @@ end
 
 
 fprintf('\tCreating kml file.\n')
+A = table(Data.WellData.longitude,Data.WellData.latitude,name',trend',means');
+writetable(A,'tabular_well_data.csv');
 kmlwrite(outname,Data.WellData.latitude, Data.WellData.longitude,'Name',name, 'Description',description);
 
 GIS_kml2kmz(outname);
