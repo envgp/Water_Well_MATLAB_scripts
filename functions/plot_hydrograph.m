@@ -1,4 +1,4 @@
-function fig = plot_hydrograph(Data,well_id,varargin)
+function [trend_rate,the_mean] = plot_hydrograph(Data,well_id,varargin)
 % fig = plot_hydrograph(Data,well_id)
 %
 % Plots a hydrograph for a given well specified by it's well_id. well_id
@@ -11,7 +11,9 @@ function fig = plot_hydrograph(Data,well_id,varargin)
 % Optional argument 'flagQC' plots in red any measurements which have a
 % quality comment attached. Argument 'multisource' plots casgem and nicely
 % data in different colours. Argument 'trendline' plots a trendline if
-% there are >2 measurements.
+% there are >2 measurements. Argument 'return_trendline' plots the
+% trendline and returns a value in feet/year. Argument 'return_mean'
+% returns a mean value too.
 %
 % A future version should contain a 'silent' option so that having the QC
 % flag isn't always printed out.
@@ -39,10 +41,31 @@ if length(varargin)>0
         trendline=false();
     end
 
+    if sum(strcmpi('trendline_return',varargin))
+        %fprintf('Multisource mode!\n')
+        trendline_return=true();
+        trendline=true();
+    else
+        trendline_return=false();
+        trend_rate=0;
+    end
+
+    
+    if sum(strcmpi('return_mean',varargin))
+        %fprintf('Multisource mode!\n')
+        return_mean=true();
+    else
+        return_mean=false();
+    end
+
+    
+    
 else
     flagqc=false();
     multisource=false();
-    trendline=false()
+    trendline=false();
+    trendline_return=false();
+    return_mean=false();
 
 end
 
@@ -94,7 +117,25 @@ end
 if trendline
     if length(DATA(~isnan(DATA(:,2)),1)) >=3
         trend_params = polyfit(DATA(~isnan(DATA(:,2)),1),DATA(~isnan(DATA(:,2)),2),1);
+    else
+        trend_params = [0,0];
     end
+    
+    if trendline_return
+        trend_rate = trend_params(1);
+    end
+else
+    trend_rate=0;
+end
+
+if return_mean
+    if length(DATA(~isnan(DATA(:,2)),1)) >=3
+        the_mean = nanmean(DATA(:,2));
+    else
+        the_mean = 0;
+    end
+else
+    the_mean=0;
 end
 
 DATA = sortrows(DATA,1);
