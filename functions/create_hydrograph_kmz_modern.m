@@ -77,7 +77,7 @@ for i = 1:sum(logical_sitecode)
     means(i) = the_mean;
     name{i}=int2str(Data.WellData.stn_id(i));
     
-    close(f)
+    delete(f)
     
     if i ==1
         fprintf('\t%i out of %i wells completed (printing progress every 20).\n', i, total_number_wells)
@@ -117,7 +117,7 @@ for j = sum(logical_sitecode)+1:total_number_wells % Keep going to the end
     name{j}=Data.WellData.nicely_site_code{j};
     trend(j) = -365*trendy;
     means(j) = the_mean;
-    close(f)
+    delete(f)
     
     if j ==1
         fprintf('\t%i out of %i wells completed (printing progress every 20).\n', j, total_number_wells)
