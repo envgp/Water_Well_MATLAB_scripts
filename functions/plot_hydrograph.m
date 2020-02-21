@@ -161,7 +161,6 @@ if flagqc
     if trendline
         plot(DATA(~isnan(DATA(:,2)),1),trend_params(1)*DATA(~isnan(DATA(:,2)),1) + trend_params(2),'r--','DisplayName','trendline')
     end
-
 end
 
 if multisource
@@ -173,10 +172,9 @@ if multisource
     if trendline
         plot(DATA(~isnan(DATA(:,2)),1),trend_params(1)*DATA(~isnan(DATA(:,2)),1) + trend_params(2),'r--','DisplayName','trendline')
     end
-
 end
 
-
+hold off
 set(gca,'ydir','reverse')
 xlabel('Date')
 ylabel('Depth to water (feet)')
