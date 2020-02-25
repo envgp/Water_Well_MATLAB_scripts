@@ -45,6 +45,8 @@ for i = 1:length(Nicely_CASGEM_stnids)
     end
 end
 
+
+
 % Now loop through the site codes and copy Nicely information across. Update
 % Datasource to 'Nicely and CASGEM (merged)'. Can be sped up because I
 % probably did a number of these in the stn_ids and am now just overwriting
@@ -60,7 +62,7 @@ for i = 1:length(Nicely_CASGEM_sitecodes)
         
         % Now, copy across the Nicely specific info to the CASGEM data. 
 
-        CasgemData.WellData.datasource(idx_casgem) = "CASGEM and Nicely (merged)";
+        CasgemData.WellData.datasource(idx_casgem) = "CASGEM and Nicely (merged on name)";
         CasgemData.WellData.is_cclay(idx_casgem) = Nicelydata.WellData.is_cclay(idx_nicely);
         CasgemData.WellData.aquifer(idx_casgem) = Nicelydata.WellData.aquifer(idx_nicely);
         CasgemData.WellData.nicely_site_code(idx_casgem) = Nicelydata.WellData.nicely_site_code(idx_nicely);
@@ -74,10 +76,48 @@ Nicelys_for_removal = Nicely_CASGEM_sitecodes_logical | nicely_logical_stnid';
 Nicelydata_new = filter_logical_new(Nicelydata,'WellData',~Nicelys_for_removal,'silent','literal');
 Data_merged = merge_datastructures(CasgemData,Nicelydata_new);
 
+% Now have a go at merging wells with very very close geographic
+% coordinates 
 
-% THIS IS NOT YET COMPLETE. The next step is to relabel the measurements to
-% go with the correct well. That is, the Measurement data need to have
-% stn_id on them at the end of this process.
+fprintf('\tMerging wells which are <100 m apart. This could accidentally merge distinct wells, but generally seems to be correct.')
+
+CASGEM_Wells_names = Data_merged.WellData.stn_id(Data_merged.WellData.datasource == "CASGEM");
+
+Nicely_names = Data_merged.WellData.nicely_site_code(Data_merged.WellData.datasource == "Nicely");
+Nicely_longitudes = Data_merged.WellData.longitude(Data_merged.WellData.datasource == "Nicely");
+Nicely_latitudes = Data_merged.WellData.latitude(Data_merged.WellData.datasource == "Nicely");
+Nicely_vector = [Nicely_longitudes,Nicely_latitudes];
+Nicely_names = Nicely_names(~isnan(Nicely_vector(:,1))); % Makes names the right length for use below (the same length as the distances vectors will be)
+Nicely_vector = Nicely_vector(~isnan(Nicely_vector(:,1)),:);
+
+nicely_codes_for_merging = {};
+
+for i = 1:length(CASGEM_Wells_names)
+    casgem_logical = Data_merged.WellData.stn_id==CASGEM_Wells_names(i);
+    welllat = Data_merged.WellData.latitude(casgem_logical);
+    welllon = Data_merged.WellData.longitude(casgem_logical);
+    delta_latlon = Nicely_vector - [welllon, welllat];
+    distances = vecnorm(Nicely_vector - [welllon, welllat],2,2);
+    [closest_distance,closest_distance_idx] = min(distances);
+    
+    if closest_distance <= 8*10^(-4) % this gives approx 100m
+        fprintf('\tFound one! Wells %i and %s are the same. Copying Nicely info over.\n', CASGEM_Wells_names(i),Nicely_names{closest_distance_idx})
+        idx_nicely = find(strcmp(Data_merged.WellData.nicely_site_code,Nicely_names{closest_distance_idx}));
+        idx_casgem = find(Data_merged.WellData.stn_id==CASGEM_Wells_names(i));
+        Data_merged.WellData.datasource(idx_casgem) = "CASGEM and Nicely (merged on proximity)";
+        Data_merged.WellData.is_cclay{idx_casgem} = Data_merged.WellData.is_cclay{idx_nicely};
+        Data_merged.WellData.aquifer{idx_casgem} = Data_merged.WellData.aquifer{idx_nicely};
+        Data_merged.WellData.nicely_site_code{idx_casgem} = Data_merged.WellData.nicely_site_code{idx_nicely};
+        nicely_codes_for_merging{end+1} = Nicely_names{closest_distance_idx};
+    end
+end
+
+% Remove the nicely data which has been copied into CASGEMdata.
+nicelys_for_removal = contains(Data_merged.WellData.nicely_site_code,nicely_codes_for_merging) & Data_merged.WellData.datasource=='Nicely';
+Data_merged = filter_logical_new(Data_merged,'WellData',~nicelys_for_removal,'silent','literal');
+
+    
+    
 
 % Now get a list of 'casgem and nicely' well Nicely site codes
 
