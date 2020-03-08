@@ -11,6 +11,7 @@ function Data_merged = merge_duplicates_casgem_nicely(Data)
 %    - then, sort out MEASUREMENTS: [
 %        - for this, I think I need to check first why there are
 %        differences in the measurements for CASGEM and Nicely.
+cmd_called = getLastMATLABcommandLineStr();
 
 [CasgemData, Nicelydata] = split_by_source(Data,'silent');
 
@@ -151,6 +152,6 @@ end
 % Data.MeasurementData.datasource = A;
 % Data.MeasurementData.nicely_site_code = tmp.KSB_ID;
 
-    
+Data_merged.History = Data.History + newline + cmd_called;
     
 end
