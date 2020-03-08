@@ -11,6 +11,8 @@ function Data = import_opendata(varargin)
 % Optional argument 'nofetch' can be set to turn off automatic download
 % from the internet.
 
+cmd_called = getLastMATLABcommandLineStr();
+
 if length(varargin)>0
 
     if strcmpi(varargin{1},'nofetch')
@@ -98,6 +100,9 @@ A(:) = "CASGEM";
 Data.PerfData.datasource = A;
 Data.PerfData.nicely_site_code = strings(length(tmp.STN_ID),1);
 
+% Create data structure history
+
+Data.History = string(cmd_called); % Initiate the history thing.
 
 cd(oldfolder)
 
