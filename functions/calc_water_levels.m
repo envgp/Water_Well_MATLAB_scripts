@@ -12,6 +12,7 @@ function [depth,Data_New] = calc_water_levels(Data,ryan,varargin)
 % OPTIONAL ARGUMENTS:
 %
 % If 'NewDataInstance' is present we return a new data instance with a field 'Depth_To_Water'. 
+    cmd_called = getLastMATLABcommandLineStr();
 
 
     if length(varargin)>0
@@ -50,5 +51,6 @@ function [depth,Data_New] = calc_water_levels(Data,ryan,varargin)
     if NewDataInstance
         Data_New = Data;
         Data_New.MeasurementData.Depth_To_Water = depth;
+        Data_New.History = Data.History + newline + cmd_called;
     end
 end
