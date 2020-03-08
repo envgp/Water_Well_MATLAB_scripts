@@ -1,7 +1,8 @@
 function Data_filt = temporal_filter_yearrange(Data,STARTYYYY,ENDYYYY)
 % Data_filt = temporal_filter_yearrange(Data,STARTYYYY,ENDYYYY)
 % Filters returns Measurements and corresponding wells for a given year.
-    
+    cmd_called = getLastMATLABcommandLineStr();
+
     fprintf('\nRunning temporal_filter_yearrange\n')
     fprintf('\tStarting with %s containing %i wells and %i measurements.\n',inputname(1),length(Data.WellData.stn_id(:)),length(Data.MeasurementData.stn_id(:)))
     
@@ -16,6 +17,7 @@ function Data_filt = temporal_filter_yearrange(Data,STARTYYYY,ENDYYYY)
     Data_tmp = filter_logical(Data,wellslogical,measurementslogical);
     Data_filt = remove_wells_wo_measurements(Data_tmp);
     
+    Data_filt.History = Data.History + newline + cmd_called;
     fprintf('\tFinished with %i wells and %i measurements.\n',length(Data_filt.WellData.stn_id(:)),length(Data_filt.MeasurementData.stn_id(:)))
 
 end
