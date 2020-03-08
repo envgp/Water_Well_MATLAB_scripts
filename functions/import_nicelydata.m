@@ -1,5 +1,7 @@
 function Data = import_nicelydata()
 % Imports data from Tim Nicely's big spreadsheet. 
+cmd_called = getLastMATLABcommandLineStr();
+
 
 fprintf("Importing Tim Nicely data.\n")
 
@@ -56,3 +58,4 @@ A = strings(length(tmp_wells.CRNASTN_ID),1);
 A(:) = "Nicely";
 Data.PerfData.datasource = A;
 
+Data.History = string(cmd_called);
