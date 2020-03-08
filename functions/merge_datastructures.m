@@ -4,6 +4,7 @@ function NewData = merge_datastructures(S, T)
 % Merges two data instances into a single structure. For instance, would be
 % useful if you want to import CASGEM and Nicely data then hold both in a
 % single structure.
+cmd_called = getLastMATLABcommandLineStr();
 
 fields = fieldnames(S);
 for k = 1:numel(fields)
@@ -35,5 +36,7 @@ end
 NewData.WellData = welldat;
 NewData.MeasurementData = measdat;
 NewData.PerfData = perfdat;
+
+NewData.History = "Merger between two datasets, merge command was " + cmd_called;
 
 end
