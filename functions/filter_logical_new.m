@@ -77,6 +77,6 @@ if strcmp(filterby,'PerfData')
     end
 end
 
-if length(fieldnames(Data)) > 3
-    fprintf('\tWARNING: New field(s) detected in %s.  filter_logical_new has deleted this field.\n', inputname(1))
+if length(fieldnames(Data)) > 4
+    fprintf('\tWARNING: New field(s) detected in %s.  filter_logical_new may have deleted this field.\n', inputname(1))
 end
