@@ -13,23 +13,27 @@ function Data = import_opendata(varargin)
 
 cmd_called = getLastMATLABcommandLineStr();
 
+location =mfilename('fullpath');
+split_location = split(location,'/');
+data_location = join(split_location(1:end-2),'/');
+data_location = string(join([data_location(1),'/opendata_files'],''));
+
 if length(varargin)>0
 
     if strcmpi(varargin{1},'nofetch')
         fprintf('\tnofetch flag detected. Assuming data already downloaded from https://data.cnra.ca.gov/dataset/periodic-groundwater-level-measurements.\n')
-        fetch=false();
+        fetch=true();
     end
 else
-    fetch=true();
+     fetch=false();
 end
 
 
 oldfolder = cd;
-cd ..
-fprintf('Importing CaNRA OpenData using "import_opendata()". Data is at %s/opendata_files/ .\n',pwd)
+cd(data_location);
+fprintf('Importing CaNRA OpenData using "import_opendata()". Data is at %s/opendata_files/ .\n',data_location)
 %     Data.WellData = struct('site_code',[],'well_depth',[],'latitude',[],'longitude',[]); % initiate well data substructure
 %     Data.MeasurementData = struct('date',[],'ground_surface_elevation',[],'reference_point_elevation',[],'ref_point_reading',[],'site_code',[]); % initiate measurement data substructure
-cd opendata_files
 %    !mv measurements.csv old
 %    !mv perforations.csv old
 %    !mv stations.csv old
