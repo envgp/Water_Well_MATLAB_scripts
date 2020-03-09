@@ -71,8 +71,8 @@ for i = 1:sum(logical_sitecode)
     f.PaperPosition = [0 0 6 3];
     f.PaperUnits='inches';
     set(gcf,'renderer','zbuffer');
-    print(sprintf('hydrograph_images_tmp/hydrograph%i.png',i),'-dpng','-r100');
-    description{i} = strcat(sprintf('<img style="max-width:500px;" src="hydrograph_images_tmp/hydrograph%i.png"><br>',i),description{i});
+    print(sprintf('hydrograph_images_tmp/hydrograph_%s.png',int2str(Data.WellData.stn_id(i))),'-dpng','-r100');
+    description{i} = strcat(sprintf('<img style="max-width:500px;" src="hydrograph_images_tmp/hydrograph_%s.png"><br>',int2str(Data.WellData.stn_id(i))),description{i});
     trend(i) = -365*trendy;
     means(i) = the_mean;
     name{i}=int2str(Data.WellData.stn_id(i));
@@ -111,8 +111,8 @@ for j = sum(logical_sitecode)+1:total_number_wells % Keep going to the end
     %saveas(f,sprintf('hydrograph_images_tmp/hydrograph%i.png',i));
     f.PaperPosition = [0 0 6 3];
     f.PaperUnits='inches';
-    print(sprintf('hydrograph_images_tmp/hydrograph%i.png',j),'-dpng','-r100');
-    description{j} = strcat(sprintf('<img style="max-width:500px;" src="hydrograph_images_tmp/hydrograph%i.png"><br>',j),description{j});
+    print(sprintf('hydrograph_images_tmp/hydrograph_%s.png',Data.WellData.nicely_site_code{j}),'-dpng','-r100');
+    description{j} = strcat(sprintf('<img style="max-width:500px;" src="hydrograph_images_tmp/hydrograph_%s.png"><br>',Data.WellData.nicely_site_code{j}),description{j});
     
     name{j}=Data.WellData.nicely_site_code{j};
     trend(j) = -365*trendy;
