@@ -19,13 +19,13 @@ end
 %% Main code: don't edit this bit
 
 oldfolder = cd;
-cd ../exports;
+%cd ../exports;
 stub = split(outname,'.');
 stub = stub{1};
-mkdir(stub)
-cd(stub)
+mkdir(stub);
+cd(stub);
 
-mkdir('hydrograph_images_tmp')
+mkdir('hydrograph_images_tmp');
 
 
 % First do wells with a site code.
@@ -58,7 +58,7 @@ for i = 1:sum(logical_sitecode)
     if trendline
         [trendy,the_mean] = plot_hydrograph(Data,Data.WellData.site_code{i},'multisource','silent','trendline_return','return_mean');
     else
-        plot_hydrograph(Data,Data.WellData.site_code{i},'multisource','silent')
+        plot_hydrograph(Data,Data.WellData.site_code{i},'multisource','silent');
     end
        
     
@@ -73,11 +73,14 @@ for i = 1:sum(logical_sitecode)
     set(gcf,'renderer','zbuffer');
     print(sprintf('hydrograph_images_tmp/hydrograph_%s.png',int2str(Data.WellData.stn_id(i))),'-dpng','-r100');
     description{i} = strcat(sprintf('<img style="max-width:500px;" src="hydrograph_images_tmp/hydrograph_%s.png"><br>',int2str(Data.WellData.stn_id(i))),description{i});
-    trend(i) = -365*trendy;
-    means(i) = the_mean;
+    if trendline
+        trend(i) = -365*trendy;
+        means(i) = the_mean;
+    end
+    
     name{i}=int2str(Data.WellData.stn_id(i));
     
-    delete(f)
+    delete(f);
     
     if i ==1
         fprintf('\t%i out of %i wells completed (printing progress every 20).\n', i, total_number_wells)
@@ -115,9 +118,12 @@ for j = sum(logical_sitecode)+1:total_number_wells % Keep going to the end
     description{j} = strcat(sprintf('<img style="max-width:500px;" src="hydrograph_images_tmp/hydrograph_%s.png"><br>',Data.WellData.nicely_site_code{j}),description{j});
     
     name{j}=Data.WellData.nicely_site_code{j};
-    trend(j) = -365*trendy;
-    means(j) = the_mean;
-    delete(f)
+    if trendline
+        trend(j) = -365*trendy;
+        means(j) = the_mean;
+    end
+    
+    delete(f);
     
     if j ==1
         fprintf('\t%i out of %i wells completed (printing progress every 20).\n', j, total_number_wells)
@@ -129,11 +135,15 @@ end
     
 
 
-fprintf('\tCreating kml file.\n')
-A = table(Data.WellData.longitude,Data.WellData.latitude,name',trend',means');
-writetable(A,'tabular_well_data.csv');
-kmlwrite(outname,Data.WellData.latitude, Data.WellData.longitude,'Name',name, 'Description',description);
 
+if trendline
+    fprintf('Outputting a trendline file.')
+    A = table(Data.WellData.longitude,Data.WellData.latitude,name',trend',means');
+    writetable(A,'tabular_well_data.csv');
+end
+
+fprintf('\tCreating kml file.\n')
+kmlwrite(outname,Data.WellData.latitude, Data.WellData.longitude,'Name',name, 'Description',description);
 GIS_kml2kmz(outname);
 
 cd(oldfolder);
