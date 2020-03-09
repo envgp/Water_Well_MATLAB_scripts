@@ -5,11 +5,16 @@ cmd_called = getLastMATLABcommandLineStr();
 
 fprintf("Importing Tim Nicely data.\n")
 
-oldfolder = cd;
-cd ..
+location =mfilename('fullpath');
+split_location = split(location,'/');
+data_location = join(split_location(1:end-2),'/');
+data_location = string(join([data_location(1),'/Tim_Nicely_data'],''));
 
-fprintf('\tReading data in %s/Tim_Nicely_data/KSBWaterLevelMasterList_FilteredforDuplicates_sort.xlsx.\n\tMay take some time...',pwd)
-tmp = readtable(sprintf('%s/Tim_Nicely_data/KSBWaterLevelMasterList_FilteredforDuplicates_sort.xlsx',pwd));
+oldfolder = cd;
+cd(data_location);
+
+fprintf('\tReading data in %s/KSBWaterLevelMasterList_FilteredforDuplicates_sort.xlsx.\n\tMay take some time...',data_location)
+tmp = readtable(sprintf('%s/KSBWaterLevelMasterList_FilteredforDuplicates_sort.xlsx',data_location));
 
 cd(oldfolder)
 
