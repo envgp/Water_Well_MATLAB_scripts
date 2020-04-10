@@ -19,7 +19,7 @@ end
 %% Main code: don't edit this bit
 
 oldfolder = cd;
-%cd ../exports;
+cd ../exports;
 stub = split(outname,'.');
 stub = stub{1};
 mkdir(stub);
@@ -145,6 +145,12 @@ end
 fprintf('\tCreating kml file.\n')
 kmlwrite(outname,Data.WellData.latitude, Data.WellData.longitude,'Name',name, 'Description',description);
 GIS_kml2kmz(outname);
+
+fprintf('\tWriting info file.\n')
+fid = fopen(strcat(outname,".info"),'wt');
+fprintf(fid, Data.History);
+fclose(fid);
+
 
 cd(oldfolder);
 
