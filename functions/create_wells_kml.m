@@ -4,6 +4,7 @@ function create_wells_kml(Data,outname)
 % a string which is the outputfile it will be saved as.
 
 description = cell(1,length(Data.WellData.stn_id));
+name = cell(1,length(Data.WellData.stn_id));
 
 
 for i = 1:length(Data.WellData.stn_id)
@@ -15,10 +16,11 @@ for i = 1:length(Data.WellData.stn_id)
         words(2*j) = Data.WellData.(fields{j})(i);
     end
     words(ismissing(words))=''; % Change NaNs to a blank space; this represents values we don't have.
+    name{i}=int2str(Data.WellData.stn_id(i));
     description{i} = sprintf(B,words);
 end
 
 
 fprintf('\tCreating kml file.\n')
-kmlwrite(outname,Data.WellData.latitude, Data.WellData.longitude, 'Description',description)
+kmlwrite(outname,Data.WellData.latitude, Data.WellData.longitude, 'Description',description,'Name',name)
 end
