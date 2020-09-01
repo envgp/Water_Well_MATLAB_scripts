@@ -1,5 +1,5 @@
 function Data = import_opendata(varargin)
-% import_opendata(varargin) : available flags = 'nofetch'
+% import_opendata(varargin) : available flags = 'fetch'
 % 
 % Imports data downloaded from CaNRA OpenData (https://data.cnra.ca.gov/dataset/periodic-groundwater-level-measurements)
 % files. The files 'stations.csv', 'measurements.csv' and 'performations.csv' should be
@@ -8,7 +8,7 @@ function Data = import_opendata(varargin)
 % quite work yet as it doesn't delete the old 'zip' file before downloading
 % a new one, so we simply unzip the same data each time....
 %
-% Optional argument 'nofetch' can be set to turn off automatic download
+% Optional argument 'fetch' can be set to turn on automatic download
 % from the internet.
 
 cmd_called = getLastMATLABcommandLineStr();
@@ -20,12 +20,14 @@ data_location = string(join([data_location(1),'/opendata_files'],''));
 
 if length(varargin)>0
 
-    if strcmpi(varargin{1},'nofetch')
+    if strcmpi(varargin{1},'fetch')
         fprintf('\tnofetch flag detected. Assuming data already downloaded from https://data.cnra.ca.gov/dataset/periodic-groundwater-level-measurements.\n')
         fetch=true();
+    else
+     fetch=false();
     end
 else
-     fetch=false();
+    fetch=false();
 end
 
 
