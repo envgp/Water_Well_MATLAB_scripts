@@ -1,4 +1,4 @@
-function extract_well_latlon(Data,lat,lon)
+function Data_filt = extract_well_latlon(Data,lat,lon)
 % Finds the nearest well to a given latitude/longitude. If two wells are
 % coincident, it fails and just returns the first one to occur in
 % Data.WellData. Note this doesn't strictly calculate distance in
