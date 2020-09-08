@@ -1,6 +1,13 @@
 function export_wellinfo(Data,outname)
-%%% export_wellinfo(Data,outname). Outname is a stub (ie, no .csv at the
-%%% end). Will be placed in current directory.
+%%% export_wellinfo(Data,outname). Exports stn_id, well_depth, lat, lon,
+%%% site_code, well_use, datasource, is_cclay, aquifer, etc for each well.
+%%% (It exports all attributes). It also exports measurement info for each
+%%% well in individual csvs.
+%%%
+%%% Outname should be a stub (ie, no .csv at the end). All files be placed in current directory.
+
+cmd_called = getLastMATLABcommandLineStr();
+Data.History = Data.History + newline + cmd_called;
 
 fid = fopen(strcat(outname,'.info'),'wt');
 fprintf(fid, Data.History);
