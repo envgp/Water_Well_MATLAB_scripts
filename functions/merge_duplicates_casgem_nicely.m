@@ -1,4 +1,4 @@
-function Data_merged = merge_duplicates_casgem_nicely(Data)
+function Data_merged = merge_duplicates_casgem_nicely(Data,varargin)
 % A "merge duplicates" function. It should now work but I haven't tested it
 % extensively...
 %
@@ -11,6 +11,22 @@ function Data_merged = merge_duplicates_casgem_nicely(Data)
 %    - then, sort out MEASUREMENTS: [
 %        - for this, I think I need to check first why there are
 %        differences in the measurements for CASGEM and Nicely.
+if length(varargin)>0
+
+    if strcmpi(varargin{1},'mergeradius')
+        fprintf('\tmergeradius flag detected. This flag should be a pair, so the following varargin needs to be your preferred mergeradius.\n')
+        mergeradius=varargin{2};
+        fprintf('\tmergeradius set to be %.2f m.', mergeradius)
+    else
+        mergeradius=100;
+        fprintf('\tmergeradius set to be %.2f m.', mergeradius)
+    end
+else
+    mergeradius=100;
+    fprintf('\tmergeradius set to be %.2f m.', mergeradius)
+end
+
+
 cmd_called = getLastMATLABcommandLineStr();
 
 [CasgemData, Nicelydata] = split_by_source(Data,'silent');
@@ -80,7 +96,7 @@ Data_merged = merge_datastructures(CasgemData,Nicelydata_new);
 % Now have a go at merging wells with very very close geographic
 % coordinates 
 
-fprintf('\tMerging wells which are <100 m apart. This could accidentally merge distinct wells, but generally seems to be correct.')
+fprintf('\tMerging wells which are %.2f m apart. This could accidentally merge distinct wells.', mergeradius)
 
 CASGEM_Wells_names = Data_merged.WellData.stn_id(Data_merged.WellData.datasource == "CASGEM");
 
@@ -101,7 +117,7 @@ for i = 1:length(CASGEM_Wells_names)
     distances = vecnorm(Nicely_vector - [welllon, welllat],2,2);
     [closest_distance,closest_distance_idx] = min(distances);
     
-    if closest_distance <= 8*10^(-4) % this gives approx 100m
+    if closest_distance <= 8*10^(-4) * mergeradius/100 % this gives approx 100m
         fprintf('\tFound one! Wells %i and %s are the same. Copying Nicely info over.\n', CASGEM_Wells_names(i),Nicely_names{closest_distance_idx})
         idx_nicely = find(strcmp(Data_merged.WellData.nicely_site_code,Nicely_names{closest_distance_idx}));
         idx_casgem = find(Data_merged.WellData.stn_id==CASGEM_Wells_names(i));
