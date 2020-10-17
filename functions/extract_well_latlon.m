@@ -1,8 +1,13 @@
 function Data_filt = extract_well_latlon(Data,lat,lon)
+% Data_filt = extract_well_latlon(Data,lat,lon)
 % Finds the nearest well to a given latitude/longitude. If two wells are
 % coincident, it fails and just returns the first one to occur in
 % Data.WellData. Note this doesn't strictly calculate distance in
 % ground-units, but in lat-lon units, so is pretty inaccurate.
+cmd_called = getLastMATLABcommandLineStr();
+Data.History = Data.History + newline + cmd_called;
+
+
 fprintf('Finding closest well to (%f %f).\n',lon,lat')
 vector = [Data.WellData.latitude, Data.WellData.longitude];
 dist = vector - [lat,lon];
