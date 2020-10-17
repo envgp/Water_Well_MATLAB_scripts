@@ -1,5 +1,5 @@
 function Data_filt = filter_by_wellnames_fromfile(Data,filename)
-% Takes a filename of a text file (in double parenthesis "FILENAME", please), containing either nicely or CASGEM wellnames on each line. Well names refer to the 5 digit casgem code, or the full Nicely 'KSB-XXXX' code. 
+% Takes a filename of a text file (in double parenthesis "FILENAME", please), containing either nicely, or stn_ids each line. Well names refer to the 5 digit casgem code, or the full Nicely 'KSB-XXXX' code. 
 
 fileID = fopen(filename);
 C = textscan(fileID,'%s','headerlines',1);
@@ -8,6 +8,8 @@ fclose(fileID);
 wellnames=C{1};
 
 wellnames_nicely = wellnames(startsWith(wellnames,'K'));
+%wellnames_stnid = wellnames(~isnan(str2double(wellnames))); If i need,
+%this is a slightly better way than the one below.
 wellnames_other = str2double(wellnames(~startsWith(wellnames,'K')));
 
 logical_wells = ismember(Data.WellData.stn_id,wellnames_other) | ismember(Data.WellData.nicely_site_code,wellnames_nicely);
