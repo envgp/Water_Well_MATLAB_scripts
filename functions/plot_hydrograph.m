@@ -75,6 +75,7 @@ if isa(well_id,'cell')
     fprintf('\tWARNING: well_id input is given as cell. It should be char. Try using curly braces, not curved brackets. Error likely to follow!')
 end
 
+
 % Check whether the given well_id is a CASGEM or Nicely ID.
 if length(well_id) == 18
     casgem=true();
@@ -83,7 +84,7 @@ elseif contains(well_id,'KSB')
     casgem=false();
     nicely=true();
 else
-    fprintf("\WARNING: could not tell if the well_id is from CASGEM or Nicely. It's highly unlikely this will work.")
+    fprintf("\t WARNING: could not tell if the well_id is from CASGEM or Nicely. It's highly unlikely this will work.")
 end
 
 if casgem
@@ -105,7 +106,7 @@ if flagqc
 end
 
 
-DATA = [datenum(Data_filt.MeasurementData.date(:)), calc_water_levels(Data_filt,0)];
+DATA = [datenum(Data_filt.MeasurementData.date(:)), Data_filt.MeasurementData.Depth_To_Water];
 if flagqc
     DATA = [datenum(Data_filt.MeasurementData.date(:)), calc_water_levels(Data_filt,0), flag'];
 end
