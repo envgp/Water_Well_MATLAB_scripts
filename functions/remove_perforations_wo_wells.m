@@ -8,7 +8,7 @@ function Data_filt = remove_perforations_wo_wells(Data)
     NICELYS = ismember(Data.PerfData.datasource,'Nicely');
     %fprintf('\tFound %i measurements from CASGEM and %i from Tim Nicely. Removing perforations wo wells for both.\n',sum(CASGEMS),sum(NICELYS))
     
-    listperf_withwells_CASGEM = ismember(Data.PerfData.stn_id(CASGEMS),Data.WellData.stn_id(:));
+    listperf_withwells_CASGEM = ismember(Data.PerfData.site_code(CASGEMS),Data.WellData.site_code(:));
     listperf_withwells_NICELY = ismember(Data.PerfData.nicely_site_code(NICELYS),Data.WellData.nicely_site_code(:));
 
     listperf_withwells=[listperf_withwells_CASGEM; listperf_withwells_NICELY];
