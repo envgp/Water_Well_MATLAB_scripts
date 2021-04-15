@@ -40,7 +40,7 @@ function Data_filt = spatial_filter_polygon(Data, polygon, varargin)
     
 
 
-    listmeasurements = find(ismember(Data.MeasurementData.stn_id,Data.WellData.stn_id(listwells)));
+    listmeasurements = find(ismember(Data.MeasurementData.site_code,Data.WellData.site_code(listwells)));
     
     Data_filt = filter_logical_new(Data,'WellData',listwells);
     
