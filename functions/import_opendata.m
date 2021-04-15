@@ -82,13 +82,14 @@ tmp = readtable('measurements.csv');
 Data.MeasurementData.date = tmp.MSMT_DATE;
 Data.MeasurementData.ground_surface_elevation = tmp.WLM_GSE;
 Data.MeasurementData.reference_point_elevation = tmp.WLM_RPE;
-Data.MeasurementData.ref_point_reading = tmp.RDNG_RP;
-Data.MeasurementData.stn_id = tmp.STN_ID;
-Data.MeasurementData.water_surface_reading = tmp.RDNG_WS;
+%Data.MeasurementData.ref_point_reading = tmp.RDNG_RP;
+%Data.MeasurementData.stn_id = tmp.STN_ID;
+%Data.MeasurementData.water_surface_reading = tmp.RDNG_WS;
 Data.MeasurementData.site_code = tmp.SITE_CODE; 
 Data.MeasurementData.quality_comment = tmp.WLM_QA_DESC;
+Data.MeasurementData.Depth_To_Water = tmp.GSE_GWE;
 Data.MeasurementData.water_surface_elevation = nan(length(tmp.MSMT_DATE),1); % WSE is not directly imported from CASGEM data. 
-A = strings(length(tmp.STN_ID),1);
+A = strings(length(tmp.SITE_CODE),1);
 A(:) = "CASGEM";
 Data.MeasurementData.datasource = A;
 Data.MeasurementData.nicely_site_code = strings(length(tmp.MSMT_DATE),1); % clearly not defined for CASGEM data!
@@ -97,14 +98,14 @@ Data.MeasurementData.nicely_site_code = strings(length(tmp.MSMT_DATE),1); % clea
 
 fprintf('\treading perforations.csv\n')
 tmp = readtable('perforations.csv');
-Data.PerfData.stn_id = tmp.STN_ID;
+%Data.PerfData.stn_id = tmp.STN_ID;
 Data.PerfData.site_code = tmp.SITE_CODE;
-Data.PerfData.top_perf = tmp.TOP_PRF;
-Data.PerfData.bot_perf = tmp.BOT_PRF;
-A = strings(length(tmp.STN_ID),1);
+Data.PerfData.top_perf = tmp.TOP_PRF_INT;
+Data.PerfData.bot_perf = tmp.BOT_PRF_INT;
+A = strings(length(tmp.SITE_CODE),1);
 A(:) = "CASGEM";
 Data.PerfData.datasource = A;
-Data.PerfData.nicely_site_code = strings(length(tmp.STN_ID),1);
+Data.PerfData.nicely_site_code = strings(length(tmp.SITE_CODE),1);
 
 % Create data structure history
 
