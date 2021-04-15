@@ -4,7 +4,7 @@ function Data_filt = temporal_filter_yearrange(Data,STARTYYYY,ENDYYYY)
     cmd_called = getLastMATLABcommandLineStr();
 
     fprintf('\nRunning temporal_filter_yearrange\n')
-    fprintf('\tStarting with %s containing %i wells and %i measurements.\n',inputname(1),length(Data.WellData.stn_id(:)),length(Data.MeasurementData.stn_id(:)))
+    fprintf('\tStarting with %s containing %i wells and %i measurements.\n',inputname(1),length(Data.WellData.site_code(:)),length(Data.MeasurementData.site_code(:)))
     
     fprintf('\tFiltering between years %i and %i.\n', STARTYYYY,ENDYYYY)
     
@@ -18,6 +18,6 @@ function Data_filt = temporal_filter_yearrange(Data,STARTYYYY,ENDYYYY)
     Data_filt = remove_wells_wo_measurements(Data_tmp);
     
     Data_filt.History = Data.History + newline + cmd_called;
-    fprintf('\tFinished with %i wells and %i measurements.\n',length(Data_filt.WellData.stn_id(:)),length(Data_filt.MeasurementData.stn_id(:)))
+    fprintf('\tFinished with %i wells and %i measurements.\n',length(Data_filt.WellData.site_code(:)),length(Data_filt.MeasurementData.site_code(:)))
 
 end
