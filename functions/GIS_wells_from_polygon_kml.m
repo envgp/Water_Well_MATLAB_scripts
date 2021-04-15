@@ -8,7 +8,7 @@ function Data_new = GIS_wells_from_polygon_kml(Data,kmlfile)
     cmd_called = getLastMATLABcommandLineStr();
 
     fprintf('\nRunning GIS_wells_from_polygon_kml\n')
-    fprintf('\tStarting with %s containing %i wells and %i measurements.\n',inputname(1),length(Data.WellData.stn_id(:)),length(Data.MeasurementData.stn_id(:)))
+    fprintf('\tStarting with %s containing %i wells and %i measurements.\n',inputname(1),length(Data.WellData.site_code(:)),length(Data.MeasurementData.site_code(:)))
 
     KML = GIS_kml2struct(kmlfile);
 
@@ -20,6 +20,6 @@ function Data_new = GIS_wells_from_polygon_kml(Data,kmlfile)
     Data_new = spatial_filter_polygon(Data,[lon,lat]);
     Data_new.History = Data_new.History + newline + cmd_called;
     
-    fprintf('\tFinished with %i wells and %i measurements.\n',length(Data_new.WellData.stn_id(:)),length(Data_new.MeasurementData.stn_id(:)))
+    fprintf('\tFinished with %i wells and %i measurements.\n',length(Data_new.WellData.site_code(:)),length(Data_new.MeasurementData.site_code(:)))
     
 end
