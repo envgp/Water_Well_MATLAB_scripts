@@ -12,9 +12,9 @@ function Data_filt = temporal_filter_yearrange(Data,STARTYYYY,ENDYYYY)
     
     measurementslogical = (STARTYYYY <= years & years <= ENDYYYY);
     
-    wellslogical = true([length(Data.WellData.site_code),1]); 
+    %wellslogical = true([length(Data.WellData.site_code),1]); 
     
-    Data_tmp = filter_logical(Data,wellslogical,measurementslogical);
+    Data_tmp = filter_logical_new(Data,'MeasurementData',measurementslogical);
     Data_filt = remove_wells_wo_measurements(Data_tmp);
     
     Data_filt.History = Data.History + newline + cmd_called;
