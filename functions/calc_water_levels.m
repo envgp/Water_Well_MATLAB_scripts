@@ -44,7 +44,8 @@ function [depth,Data_New] = calc_water_levels(Data,ryan,varargin)
         CASGEMS = ismember(Data.MeasurementData.datasource,'CASGEM');
         NICELYS = ismember(Data.MeasurementData.datasource,'Nicely');
         %fprintf('\tFound %i measurements from CASGEM and %i from Tim Nicely. Calculating depths to water for both.',sum(CASGEMS),sum(NICELYS))
-        depth(CASGEMS) = Data.MeasurementData.ground_surface_elevation(CASGEMS) - Data.MeasurementData.reference_point_elevation(CASGEMS) + Data.MeasurementData.ref_point_reading(CASGEMS) - Data.MeasurementData.water_surface_reading(CASGEMS);
+        %depth(CASGEMS) = Data.MeasurementData.ground_surface_elevation(CASGEMS) - Data.MeasurementData.reference_point_elevation(CASGEMS) + Data.MeasurementData.ref_point_reading(CASGEMS) - Data.MeasurementData.water_surface_reading(CASGEMS);
+        depth(CASGEMS) = Data.MeasurementData.Depth_To_Water(CASGEMS);
         depth(NICELYS) = Data.MeasurementData.ground_surface_elevation(NICELYS) - Data.MeasurementData.water_surface_elevation(NICELYS);
     end
     
