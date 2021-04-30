@@ -73,7 +73,9 @@ A(:) = "CASGEM";
 Data.WellData.datasource = A;
 Data.WellData.is_cclay = strings(length(tmp.STN_ID),1); % CASGEM data doesn't have an is_cclay determinant.
 Data.WellData.aquifer = strings(length(tmp.STN_ID),1); % CASGEM data doesn't have an aquifer determinant.
-Data.WellData.nicely_site_code = strings(length(tmp.STN_ID),1); % CASGEM data doesn't have a nicely site code, clearly!
+Data.WellData.nicely_site_code = cell(length(tmp.STN_ID),1); % CASGEM data doesn't have a nicely site code, clearly!
+ind = find(cellfun(@isnumeric,Data.WellData.nicely_site_code) == 1);
+Data.WellData.nicely_site_code(ind) = {''}; % convert pesky empty doubles to empty char arrays, for cell array uniformity
 
 % populate measurement data
 fprintf('\treading measurements.csv; may take some time\n')
@@ -92,7 +94,9 @@ Data.MeasurementData.water_surface_elevation = nan(length(tmp.MSMT_DATE),1); % W
 A = strings(length(tmp.SITE_CODE),1);
 A(:) = "CASGEM";
 Data.MeasurementData.datasource = A;
-Data.MeasurementData.nicely_site_code = strings(length(tmp.MSMT_DATE),1); % clearly not defined for CASGEM data!
+Data.MeasurementData.nicely_site_code = cell(length(tmp.MSMT_DATE),1); % clearly not defined for CASGEM data!
+ind = find(cellfun(@isnumeric,Data.MeasurementData.nicely_site_code) == 1);
+Data.MeasurementData.nicely_site_code(ind) = {''}; % convert pesky empty doubles to empty char arrays, for cell array uniformity
 
 % populate perforation data
 
@@ -105,7 +109,7 @@ Data.PerfData.bot_perf = tmp.BOT_PRF_INT;
 A = strings(length(tmp.SITE_CODE),1);
 A(:) = "CASGEM";
 Data.PerfData.datasource = A;
-Data.PerfData.nicely_site_code = strings(length(tmp.SITE_CODE),1);
+Data.PerfData.nicely_site_code = cell(length(tmp.SITE_CODE),1);
 
 % Create data structure history
 
