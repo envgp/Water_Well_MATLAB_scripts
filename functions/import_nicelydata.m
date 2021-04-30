@@ -13,7 +13,7 @@ data_location = string(join([data_location(1),'/Tim_Nicely_data'],''));
 oldfolder = cd;
 cd(data_location);
 
-fprintf('\tReading data in %s/KSBWaterLevelMasterList_FilteredforDuplicates_sort.xlsx.\n\tMay take some time...',data_location)
+fprintf('\tReading data in %s/KSBWaterLevelMasterList_FilteredforDuplicates_sort.xlsx.\n\tMay take some time...\n',data_location)
 tmp = readtable(sprintf('%s/KSBWaterLevelMasterList_FilteredforDuplicates_sort.xlsx',data_location));
 
 cd(oldfolder)
@@ -41,11 +41,12 @@ Data.WellData.nicely_site_code = tmp_wells.KSB_ID;
 Data.MeasurementData.date = tmp.MSMT_DATE;
 Data.MeasurementData.ground_surface_elevation = str2double(tmp.GSE_DEM); % Take the DEM reported GSE; note that sometimes this isn't the same as the 'reported' one. Some NaNs appear doing this as some of the GSE have 'null' as their value.
 Data.MeasurementData.reference_point_elevation = zeros(length(tmp.MSMT_DATE),1); % Not needed
-Data.MeasurementData.ref_point_reading = zeros(length(tmp.MSMT_DATE),1);
-Data.MeasurementData.stn_id = tmp.CRNASTN_ID;
-Data.MeasurementData.water_surface_reading = nan(length(tmp.MSMT_DATE),1);
+%Data.MeasurementData.ref_point_reading = zeros(length(tmp.MSMT_DATE),1);
+%Data.MeasurementData.stn_id = tmp.CRNASTN_ID;
+%Data.MeasurementData.water_surface_reading = nan(length(tmp.MSMT_DATE),1);
 Data.MeasurementData.site_code = tmp.CASGEMSITE_CODE; 
-Data.MeasurementData.quality_comment = strings(length(tmp.MSMT_DATE),1);
+Data.MeasurementData.quality_comment = cell(length(tmp.MSMT_DATE),1);
+Data.MeasurementData.Depth_To_Water = zeros(length(tmp.MSMT_DATE),1);
 Data.MeasurementData.water_surface_elevation = tmp.WSE;
 A = strings(length(tmp.MSMT_DATE),1);
 A(:) = "Nicely";
@@ -54,7 +55,7 @@ Data.MeasurementData.nicely_site_code = tmp.KSB_ID;
 
 % Load Perforations Section (haven't checked this is right yet - compare duplicate wells with CASGEM to check)
 
-Data.PerfData.stn_id = tmp_wells.CRNASTN_ID;
+%Data.PerfData.stn_id = tmp_wells.CRNASTN_ID;
 Data.PerfData.site_code = tmp_wells.CASGEMSITE_CODE;
 Data.PerfData.top_perf = tmp_wells.TOP_SCRN;
 Data.PerfData.bot_perf = tmp_wells.BOT_SCRN;
