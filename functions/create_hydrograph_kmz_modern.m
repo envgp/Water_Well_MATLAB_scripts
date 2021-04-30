@@ -58,7 +58,7 @@ for i = 1:sum(logical_sitecode)
     if trendline
         [trendy,the_mean] = plot_hydrograph(Data,Data.WellData.site_code{i},'multisource','silent','trendline_return','return_mean');
     else
-        plot_hydrograph(Data,Data.WellData.site_code{i},'multisource','silent');
+        plot_hydrograph(Data,Data.WellData.site_code{i},'silent');
     end
        
     
