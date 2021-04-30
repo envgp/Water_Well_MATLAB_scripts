@@ -16,7 +16,8 @@ fclose(fid);
 wellinfo = struct2table(Data.WellData);
 writetable(wellinfo,strcat(outname,'.csv'));
 
-wellnames = rmmissing(vertcat(Data.WellData.stn_id,Data.WellData.nicely_site_code));
+%wellnames = rmmissing(vertcat(Data.WellData.stn_id,Data.WellData.nicely_site_code));
+wellnames = vertcat(cellstr(num2str(Data.WellData.stn_id)),Data.WellData.nicely_site_code);
 wellnames = wellnames(~strcmp(wellnames(:),""),:);
 
 
@@ -26,7 +27,7 @@ wellnames_other = str2double(wellnames(~startsWith(wellnames,'K')));
 
 for i = 1:length(wellnames_nicely)
     well = wellnames_nicely{i};
-    logical = Data.WellData.nicely_site_code == well;
+    logical = ismember(Data.WellData.nicely_site_code,well);
     Dat_tmp = filter_logical_new(Data,'WellData',logical);
     Table_tmp = struct2table(Dat_tmp.MeasurementData);
     outname=string(well)+".csv";
