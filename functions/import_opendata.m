@@ -110,6 +110,8 @@ A = strings(length(tmp.SITE_CODE),1);
 A(:) = "CASGEM";
 Data.PerfData.datasource = A;
 Data.PerfData.nicely_site_code = cell(length(tmp.SITE_CODE),1);
+ind = find(cellfun(@isnumeric,Data.PerfData.nicely_site_code) == 1);
+Data.PerfData.nicely_site_code(ind) = {''}; % convert pesky empty doubles to empty char arrays, for cell array uniformity
 
 % Create data structure history
 
