@@ -2,18 +2,11 @@ function Data_filt = remove_perforations_wo_wells(Data)
 % Takes a data structure and removes any perforations which do not have
 % corresponding wells.
 
-    %fprintf('\nRunning remove_perforations_wo_wells\n')
+    site_codes = Data.WellData.site_code(Data.WellData.site_code ~= ""); % get a list of site codes excluding empty strings
+    nicely_codes = Data.WellData.nicely_site_code(Data.WellData.nicely_site_code ~= ""); % get a list of nicely codes excluding empty strings
     
-    CASGEMS = ismember(Data.PerfData.datasource,'CASGEM');
-    NICELYS = ismember(Data.PerfData.datasource,'Nicely');
-    %fprintf('\tFound %i measurements from CASGEM and %i from Tim Nicely. Removing perforations wo wells for both.\n',sum(CASGEMS),sum(NICELYS))
-    
-    listperf_withwells_CASGEM = ismember(Data.PerfData.site_code(CASGEMS),Data.WellData.site_code(:));
-    listperf_withwells_NICELY = ismember(Data.PerfData.nicely_site_code(NICELYS),Data.WellData.nicely_site_code(:));
+    listperf_withwells = ismember(Data.PerfData.site_code,site_codes) | ismember(Data.PerfData.nicely_site_code,nicely_codes); % Create a list of logicals showing which index in measurements contain a Well .
 
-    listperf_withwells=[listperf_withwells_CASGEM; listperf_withwells_NICELY];
-
-    
     Data_filt = Data;
     
     fields = fieldnames(Data.PerfData);
