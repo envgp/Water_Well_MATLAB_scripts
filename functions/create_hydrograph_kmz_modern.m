@@ -39,16 +39,21 @@ description = cell(1,total_number_wells);
 name = cell(1,total_number_wells);
 trend = zeros(1,total_number_wells);
 means = zeros(1,total_number_wells);
+lat = zeros(1,total_number_wells);
+lon = zeros(1,total_number_wells);
 
 fprintf('\tDoing CASGEM or combined wells.\n')
-for i = 1:sum(logical_sitecode)
+
+idxs_sitecodes =  find(logical_sitecode);
+
+for i = 1:length(idxs_sitecodes)
 
     fields = fieldnames(Data.WellData);
     B = strjoin(repmat("%s = %s <br>",1,length(fields)));
     words= strings(1,2*length(fields));
     words(1:2:length(words))= fields;
     for j = 1:length(fields)
-        words(2*j) = Data.WellData.(fields{j})(i);
+        words(2*j) = Data.WellData.(fields{j})(idxs_sitecodes(i));
     end
     words(ismissing(words))=''; % Change NaNs to a blank space; this represents values we don't have.
     description{i} = sprintf(B,words);
@@ -56,9 +61,9 @@ for i = 1:sum(logical_sitecode)
     
     f = figure('visible','off');
     if trendline
-        [trendy,the_mean] = plot_hydrograph(Data,Data.WellData.site_code{i},'multisource','silent','trendline_return','return_mean');
+        [trendy,the_mean] = plot_hydrograph(Data,Data.WellData.site_code{idxs_sitecodes(i)},'multisource','silent','trendline_return','return_mean');
     else
-        plot_hydrograph(Data,Data.WellData.site_code{i},'silent');
+        plot_hydrograph(Data,Data.WellData.site_code{idxs_sitecodes(i)},'silent');
     end
        
     
@@ -71,15 +76,17 @@ for i = 1:sum(logical_sitecode)
     f.PaperPosition = [0 0 6 3];
     f.PaperUnits='inches';
     set(gcf,'renderer','zbuffer');
-    print(sprintf('hydrograph_images_tmp/hydrograph_%s.png',int2str(Data.WellData.stn_id(i))),'-dpng','-r100');
-    description{i} = strcat(sprintf('<img style="max-width:500px;" src="hydrograph_images_tmp/hydrograph_%s.png"><br>',int2str(Data.WellData.stn_id(i))),description{i});
+    print(sprintf('hydrograph_images_tmp/hydrograph_%s.png',int2str(Data.WellData.stn_id(idxs_sitecodes(i)))),'-dpng','-r100');
+    description{i} = strcat(sprintf('<img style="max-width:500px;" src="hydrograph_images_tmp/hydrograph_%s.png"><br>',int2str(Data.WellData.stn_id(idxs_sitecodes(i)))),description{i});
     if trendline
         trend(i) = -365*trendy;
         means(i) = the_mean;
     end
     
-    name{i}=int2str(Data.WellData.stn_id(i));
-    
+    name{i}=int2str(Data.WellData.stn_id(idxs_sitecodes(i)));
+    lat(i)=Data.WellData.latitude(idxs_sitecodes(i));
+    lon(i)=Data.WellData.longitude(idxs_sitecodes(i));
+
     delete(f);
     
     if i ==1
@@ -91,20 +98,22 @@ for i = 1:sum(logical_sitecode)
 end
 
 fprintf('\tDoing Nicely only wells.\n')
-for j = sum(logical_sitecode)+1:total_number_wells % Keep going to the end
+idxs_sitecodes_nicelyonly =  find(logical_nicelycode_only);
+
+for j = 1:length(idxs_sitecodes_nicelyonly)
     fields = fieldnames(Data.WellData);
     B = strjoin(repmat("%s = %s <br>",1,length(fields)));
     words= strings(1,2*length(fields));
     words(1:2:length(words))= fields;
     for k = 1:length(fields)
-        words(2*k) = Data.WellData.(fields{k})(j);
+        words(2*k) = Data.WellData.(fields{k})(idxs_sitecodes_nicelyonly(j));
     end
     words(ismissing(words))=''; % Change NaNs to a blank space; this represents values we don't have.
-    description{j} = sprintf(B,words);
+    description{j + length(idxs_sitecodes)} = sprintf(B,words);
     
     
     f = figure('visible','off');
-    [trendy,the_mean] = plot_hydrograph(Data,Data.WellData.nicely_site_code{j},'multisource','silent','trendline_return','return_mean');
+    [trendy,the_mean] = plot_hydrograph(Data,Data.WellData.nicely_site_code{idxs_sitecodes_nicelyonly(j)},'multisource','silent','trendline_return','return_mean');
     
     
 %    set(gcf, 'PaperUnits', 'inches');
@@ -114,10 +123,13 @@ for j = sum(logical_sitecode)+1:total_number_wells % Keep going to the end
     %saveas(f,sprintf('hydrograph_images_tmp/hydrograph%i.png',i));
     f.PaperPosition = [0 0 6 3];
     f.PaperUnits='inches';
-    print(sprintf('hydrograph_images_tmp/hydrograph_%s.png',Data.WellData.nicely_site_code{j}),'-dpng','-r100');
-    description{j} = strcat(sprintf('<img style="max-width:500px;" src="hydrograph_images_tmp/hydrograph_%s.png"><br>',Data.WellData.nicely_site_code{j}),description{j});
+    print(sprintf('hydrograph_images_tmp/hydrograph_%s.png',Data.WellData.nicely_site_code{idxs_sitecodes_nicelyonly(j)}),'-dpng','-r100');
+    description{j  + length(idxs_sitecodes)} = strcat(sprintf('<img style="max-width:500px;" src="hydrograph_images_tmp/hydrograph_%s.png"><br>',Data.WellData.nicely_site_code{idxs_sitecodes_nicelyonly(j)}),description{j  + length(idxs_sitecodes)});
     
-    name{j}=Data.WellData.nicely_site_code{j};
+    name{j + length(idxs_sitecodes)}=Data.WellData.nicely_site_code{idxs_sitecodes_nicelyonly(j)};
+    lat(j + length(idxs_sitecodes))=Data.WellData.latitude(idxs_sitecodes_nicelyonly(j));
+    lon(j + length(idxs_sitecodes))=Data.WellData.longitude(idxs_sitecodes_nicelyonly(j));
+
     if trendline
         trend(j) = -365*trendy;
         means(j) = the_mean;
@@ -143,7 +155,7 @@ if trendline
 end
 
 fprintf('\tCreating kml file.\n')
-kmlwrite(outname,Data.WellData.latitude, Data.WellData.longitude,'Name',name, 'Description',description);
+kmlwrite(outname,lat,lon,'Name',name, 'Description',description);
 GIS_kml2kmz(outname);
 
 fprintf('\tWriting info file.\n')
