@@ -23,7 +23,7 @@ tmp_wells = tmp(idxs,:);
 
 
 Data.WellData.stn_id = tmp_wells.CRNASTN_ID;
-Data.WellData.well_depth = nan(length(tmp_wells.CRNASTN_ID),1);
+Data.WellData.well_depth = tmp_wells.TD_depth;
 Data.WellData.latitude = tmp_wells.LATITUDE;
 Data.WellData.longitude = tmp_wells.LONGITUDE;
 Data.WellData.site_code = tmp_wells.CASGEMSITE_CODE; % This is the CASGEM site code.
