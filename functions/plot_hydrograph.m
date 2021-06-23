@@ -149,7 +149,7 @@ DATA = sortrows(DATA,1);
 
 if ~multisource % We plot the line separately for the multisource case.
     hold on
-    plot(DATA(~isnan(DATA(:,2)),1),DATA(~isnan(DATA(:,2)),2),'ko-','MarkerFaceColor','black','DisplayName','hydrograph','LineWidth',2); % This line plots only nonNan values. The reason to do this is else the plot is discontinuous.
+    plot(DATA(any(DATA(:,2),2) & ~isnan(DATA(:,2)),1),DATA(any(DATA(:,2),2) & ~isnan(DATA(:,2)),2),'ko-','MarkerFaceColor','black','DisplayName','hydrograph','LineWidth',2); % This line plots only nonNan values. The reason to do this is else the plot is discontinuous.
     if trendline
         plot(DATA(~isnan(DATA(:,2)),1),trend_params(1)*DATA(~isnan(DATA(:,2)),1) + trend_params(2),'r--','DisplayName','trendline')
     end
