@@ -60,9 +60,12 @@ end
 
 % populate well data
 fprintf('\treading stations.csv \n')
-tmp = readtable('stations.csv');
+opts = detectImportOptions('stations.csv');
+opts.ImportErrorRule='omitrow';
+tmp = readtable('stations.csv',opts);
 
 Data.WellData.stn_id = tmp.STN_ID;
+Data.WellData.site_code = tmp.SITE_CODE;
 Data.WellData.well_depth = tmp.WELL_DEPTH;
 Data.WellData.latitude = tmp.LATITUDE;
 Data.WellData.longitude = tmp.LONGITUDE;
@@ -79,7 +82,9 @@ Data.WellData.nicely_site_code(ind) = {''}; % convert pesky empty doubles to emp
 
 % populate measurement data
 fprintf('\treading measurements.csv; may take some time\n')
-tmp = readtable('measurements.csv');
+opts = detectImportOptions('measurements.csv');
+opts.ImportErrorRule='omitrow';
+tmp = readtable('measurements.csv',opts);
 
 Data.MeasurementData.date = tmp.MSMT_DATE;
 Data.MeasurementData.ground_surface_elevation = tmp.WLM_GSE;
@@ -101,7 +106,9 @@ Data.MeasurementData.nicely_site_code(ind) = {''}; % convert pesky empty doubles
 % populate perforation data
 
 fprintf('\treading perforations.csv\n')
-tmp = readtable('perforations.csv');
+opts = detectImportOptions('perforations.csv');
+opts.ImportErrorRule='omitrow';
+tmp = readtable('perforations.csv',opts);
 %Data.PerfData.stn_id = tmp.STN_ID;
 Data.PerfData.site_code = tmp.SITE_CODE;
 Data.PerfData.top_perf = tmp.TOP_PRF_INT;
